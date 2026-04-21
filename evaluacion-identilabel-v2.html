@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación Integral - IDENTILABEL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: linear-gradient(135deg, #0051D8 0%, #5B9FFF 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .container { background: white; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 100%; max-width: 900px; padding: 50px; }
+        
+        :root { --primary: #0051D8; --secondary: #5B9FFF; --accent: #E63946; --light: #f0f4ff; --dark: #1a1a1a; --success: #27ae60; --green: #10B981; --red: #EF4444; }
+        
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .text-center { text-align: center; }
+        .logo { font-size: 36px; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+        .tagline { color: var(--accent); font-size: 14px; margin-bottom: 30px; font-weight: 600; }
+        h1 { color: var(--primary); font-size: 28px; font-weight: 700; margin-bottom: 30px; }
+        h2 { color: var(--primary); font-size: 24px; font-weight: 700; margin-bottom: 20px; }
+        
+        .evaluation-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 40px 0; }
+        .eval-card { background: var(--light); border: 3px solid var(--red); border-radius: 12px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .eval-card.completed { border-color: var(--green); }
+        .eval-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 81, 216, 0.2); }
+        .eval-card.selected { background: rgba(230, 57, 70, 0.1); }
+        .eval-icon { font-size: 40px; margin-bottom: 15px; }
+        .eval-title { color: var(--primary); font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+        .eval-desc { color: #666; font-size: 13px; line-height: 1.5; margin-bottom: 15px; }
+        .eval-status { font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 20px; display: inline-block; }
+        .eval-status.pending { background: var(--red); color: white; }
+        .eval-status.done { background: var(--green); color: white; }
+        
+        .input-group { margin: 20px 0; }
+        .input-group label { display: block; color: var(--primary); font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+        .input-group input { width: 100%; padding: 12px; border: 2px solid var(--secondary); border-radius: 6px; font-family: 'Roboto', sans-serif; font-size: 14px; }
+        .input-group input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 8px rgba(230, 57, 70, 0.3); }
+        
+        .button { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 14px 45px; border: none; border-radius: 6px; font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 20px; width: 100%; transition: all 0.3s; }
+        .button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0, 81, 216, 0.3); }
+        .button.secondary { background: var(--light); color: var(--primary); border: 2px solid var(--primary); }
+        .button.secondary:hover { background: var(--primary); color: white; }
+        .button.small { padding: 10px 20px; font-size: 14px; width: auto; margin: 10px 5px; }
+        
+        .timer-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--primary); }
+        .timer { font-size: 20px; font-weight: 700; color: var(--primary); }
+        .timer.warning { color: var(--accent); animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .progress-bar { width: 100%; height: 10px; background: var(--light); border-radius: 5px; overflow: hidden; margin-bottom: 30px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%); transition: width 0.3s ease; }
+        
+        .question-box { background: var(--light); padding: 25px; border-radius: 8px; margin: 20px 0; border-left: 4px solid var(--primary); }
+        .question-number { color: var(--accent); font-weight: 600; font-size: 12px; text-transform: uppercase; margin-bottom: 10px; }
+        .question-text { color: var(--primary); font-size: 18px; font-weight: 600; margin-bottom: 20px; line-height: 1.6; }
+        
+        .options { display: flex; flex-direction: column; gap: 12px; }
+        .option { display: flex; align-items: flex-start; padding: 14px; border: 2px solid white; border-radius: 6px; cursor: pointer; background: white; transition: all 0.2s; }
+        .option:hover { border-color: var(--primary); background: rgba(0, 81, 216, 0.05); }
+        .option input { margin-right: 12px; margin-top: 3px; cursor: pointer; width: 18px; height: 18px; accent-color: var(--primary); flex-shrink: 0; }
+        .option.selected { border-color: var(--accent); background: rgba(230, 57, 70, 0.08); }
+        .option.selected label { color: var(--primary); font-weight: 600; }
+        .option label { cursor: pointer; flex: 1; font-size: 14px; color: var(--dark); }
+        
+        .results-table { width: 100%; margin: 20px 0; border-collapse: collapse; }
+        .results-table th { background: var(--primary); color: white; padding: 14px; text-align: left; }
+        .results-table td { padding: 12px 14px; border-bottom: 1px solid var(--light); }
+        .results-table tr:nth-child(even) { background: var(--light); }
+        
+        .score { font-weight: 700; color: var(--primary); }
+        .score-bar { display: inline-block; height: 6px; border-radius: 3px; background: var(--primary); margin-left: 10px; }
+        .level { font-weight: 700; font-size: 12px; text-transform: uppercase; }
+        .level-strong { color: var(--success); }
+        .level-medium { color: var(--accent); }
+        .level-weak { color: #e74c3c; }
+        
+        .final-result { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 25px; border-radius: 8px; text-align: center; margin: 25px 0; }
+        .final-result.approved { background: linear-gradient(135deg, var(--success) 0%, #1abc9c 100%); }
+        .final-result.notapproved { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); }
+        .final-score { font-size: 28px; font-weight: 700; margin-bottom: 10px; }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 40px; border-radius: 12px; text-align: center; max-width: 500px; }
+        .modal-content h2 { color: var(--primary); margin-bottom: 20px; }
+        .modal-content p { color: var(--dark); margin-bottom: 20px; line-height: 1.6; }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 30px; }
+        .modal-buttons button { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        .modal-buttons .btn-confirm { background: var(--accent); color: white; }
+        .modal-buttons .btn-cancel { background: var(--light); color: var(--primary); border: 2px solid var(--primary); }
+        
+        .copy-feedback { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 15px 30px; border-radius: 50px; box-shadow: 0 5px 20px rgba(0, 81, 216, 0.4); z-index: 1000; animation: slideUp 0.3s ease; }
+        .copy-feedback.show { display: block; }
+        @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
+        
+        .message-box { background: var(--light); padding: 30px; border-radius: 8px; text-align: center; margin: 40px 0; }
+        .message-box p { color: var(--primary); font-size: 18px; font-weight: 600; line-height: 1.8; margin-bottom: 30px; }
+        .message-box .icon { font-size: 60px; margin-bottom: 20px; }
+        
+        .info-box { background: rgba(0, 81, 216, 0.1); border-left: 4px solid var(--primary); padding: 15px; margin: 20px 0; border-radius: 6px; }
+        .info-box p { color: var(--primary); font-size: 14px; margin: 5px 0; }
+        
+        .buttons-group { display: flex; gap: 10px; flex-direction: column; margin-top: 30px; }
+        .buttons-group button { width: 100%; }
+        
+        .buttons-row { display: flex; gap: 10px; margin-top: 20px; }
+        .buttons-row button { flex: 1; }
+        
+        .instructions { background: var(--light); padding: 25px; border-radius: 8px; margin: 30px 0; border-left: 4px solid var(--primary); }
+        .instructions h3 { color: var(--primary); font-size: 16px; margin-bottom: 15px; }
+        .instructions ul { margin-left: 20px; color: var(--dark); }
+        .instructions li { margin-bottom: 10px; font-size: 14px; }
+        
+        @media (max-width: 768px) {
+            .container { padding: 30px 20px; }
+            .evaluation-grid { grid-template-columns: 1fr; }
+            .modal-content { padding: 30px 20px; }
+            .buttons-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- PANTALLA 1: SELECCIONAR EVALUACIÓN Y NOMBRE -->
+        <div id="mainScreen" class="screen active">
+            <div class="text-center">
+                <div class="logo">🏷️ IDENTILABEL</div>
+                <div class="tagline">Sistema de Evaluación Integral</div>
+                <h1>Evaluación de Candidatos</h1>
+                
+                <div class="input-group">
+                    <label for="candidateName">Nombre del candidato *</label>
+                    <input type="text" id="candidateName" placeholder="Ej: Juan García López">
+                </div>
+                
+                <div id="savedNameDiv" style="display:none; background: var(--light); padding: 15px; border-radius: 8px; margin: 20px 0;">
+                    <p style="color: var(--primary); margin-bottom: 15px;">Candidato guardado: <strong id="savedNameDisplay"></strong></p>
+                    <div class="buttons-row">
+                        <button class="button small" onclick="app.useSavedName()">Usar este nombre</button>
+                        <button class="button small secondary" onclick="app.changeName()">Cambiar nombre</button>
+                    </div>
+                </div>
+                
+                <h2 style="font-size: 20px; margin-top: 40px;">Selecciona el tipo de evaluación</h2>
+                
+                <div class="evaluation-grid">
+                    <div class="eval-card" id="tecnicaCard" onclick="app.selectEvaluation('tecnica')">
+                        <div class="eval-icon">🔧</div>
+                        <div class="eval-title">Evaluación Técnica</div>
+                        <div class="eval-desc">Habilidades y competencias del rol</div>
+                        <div class="eval-status pending" id="tecnicaStatus">Pendiente</div>
+                    </div>
+                    <div class="eval-card" id="administrativaCard" onclick="app.selectEvaluation('administrativa')">
+                        <div class="eval-icon">📋</div>
+                        <div class="eval-title">Evaluación Administrativa</div>
+                        <div class="eval-desc">Procesos y requisitos</div>
+                        <div class="eval-status pending" id="administrativaStatus">Pendiente</div>
+                    </div>
+                    <div class="eval-card" id="organizacionalCard" onclick="app.selectEvaluation('organizacional')">
+                        <div class="eval-icon">👥</div>
+                        <div class="eval-title">Evaluación Organizacional</div>
+                        <div class="eval-desc">Valores y cultura organizacional</div>
+                        <div class="eval-status pending" id="organizacionalStatus">Pendiente</div>
+                    </div>
+                </div>
+                
+                <button class="button" onclick="app.startSelectedEvaluation()">Iniciar Evaluación Seleccionada</button>
+                <button class="button secondary" style="background: var(--success);" onclick="app.checkInterviewerForFinal()">Ver Resultados Finales</button>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 2: INSTRUCCIONES Y INICIO -->
+        <div id="instructionsScreen" class="screen">
+            <div class="text-center">
+                <div class="logo">🏷️ IDENTILABEL</div>
+                <h1 id="evalTitle">Evaluación</h1>
+                
+                <div class="instructions">
+                    <h3>📋 Instrucciones</h3>
+                    <ul id="instrList"></ul>
+                </div>
+                
+                <button class="button" onclick="app.startTest()">Iniciar Evaluación</button>
+                <button class="button secondary" onclick="app.goBackToMain()">← Atrás</button>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 3: PREGUNTAS -->
+        <div id="questionsScreen" class="screen">
+            <div class="timer-bar">
+                <div class="timer" id="timer">20:00</div>
+                <div style="color: var(--primary); font-weight: 600; font-size: 14px;" id="progress">Pregunta 1 de 20</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            
+            <div id="questionContent"></div>
+            
+            <div style="margin-top: 30px; text-align: center;">
+                <button class="button secondary" onclick="app.goBackQuestion()">← Pregunta Anterior</button>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 4: ENTREGAR DISPOSITIVO (solo para organizacional) -->
+        <div id="handoverScreen" class="screen">
+            <div class="text-center">
+                <div class="message-box">
+                    <div class="icon">📱</div>
+                    <p>¡Evaluación completada!</p>
+                    <p style="font-size: 16px; font-weight: 400;">Por favor, <strong>entrégale este dispositivo al entrevistador</strong> para que pueda revisar los resultados.</p>
+                </div>
+                
+                <button class="button accent" onclick="app.goToInterviewerCheck()">Listo, entregué el dispositivo</button>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 5: VERIFICACIÓN ENTREVISTADOR (solo para organizacional) -->
+        <div id="interviewerScreen" class="screen">
+            <div class="text-center">
+                <div class="message-box">
+                    <div class="icon">👤</div>
+                    <p>¿Confirmas que eres el entrevistador?</p>
+                    <p style="font-size: 14px; font-weight: 400;">Por seguridad, solo el entrevistador puede ver los resultados.</p>
+                </div>
+                
+                <button class="button" onclick="app.confirmInterviewer()">Sí, soy el entrevistador</button>
+                <button class="button secondary" onclick="app.goBackToMain()">← Atrás</button>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 5B: VERIFICACIÓN ENTREVISTADOR PARA RESULTADOS FINALES -->
+        <div id="interviewerFinalScreen" class="screen">
+            <div class="text-center">
+                <div class="message-box">
+                    <div class="icon">👤</div>
+                    <p>¿Confirmas que eres el entrevistador?</p>
+                    <p style="font-size: 14px; font-weight: 400;">Por seguridad, solo el entrevistador puede ver los resultados finales.</p>
+                </div>
+                
+                <button class="button" onclick="app.confirmInterviewerFinal()">Sí, soy el entrevistador</button>
+                <button class="button secondary" onclick="app.goBackToMain()">← Atrás</button>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 6: RESULTADOS INDIVIDUALES -->
+        <div id="resultsScreen" class="screen">
+            <div id="printableResults" style="padding: 20px; background: white; border-radius: 8px;">
+                <div class="text-center" style="margin-bottom: 30px;">
+                    <div class="logo">🏷️ IDENTILABEL</div>
+                    <h1 id="resultsTitle">Resultados</h1>
+                    <p style="color: var(--primary); margin-top: 10px; font-weight: 600;" id="resultName">Candidato</p>
+                    <p style="color: var(--primary);" id="resultDate">Fecha</p>
+                </div>
+                
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Criterio</th>
+                            <th>Puntuación</th>
+                            <th>Evaluación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTable">
+                    </tbody>
+                </table>
+                
+                <div id="contradictionsBox" style="display:none; background: #fff3cd; border-left: 4px solid var(--accent); padding: 15px; margin: 20px 0; border-radius: 6px;">
+                    <h3 style="color: #856404; margin-bottom: 10px;">⚠️ Inconsistencias Detectadas</h3>
+                    <div id="contradictionsText" style="color: #856404; font-size: 13px;"></div>
+                </div>
+                
+                <div class="final-result" id="finalResult"></div>
+            </div>
+            
+            <div class="buttons-group">
+                <button class="button" onclick="app.copyResults()">📋 Copiar Resultados</button>
+                <button class="button secondary" onclick="app.goBackToMain()">← Volver al menú</button>
+            </div>
+        </div>
+        
+        <!-- PANTALLA 7: RESULTADOS FINALES -->
+        <div id="finalResultsScreen" class="screen">
+            <div class="text-center">
+                <div class="logo">🏷️ IDENTILABEL</div>
+                <h1>Evaluación Final del Candidato</h1>
+                <p style="color: var(--primary); margin-top: 10px; font-weight: 600;" id="finalCandidateName">Candidato</p>
+                <p style="color: var(--primary);" id="finalCandidateDate">Fecha</p>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <h2 style="text-align: center; font-size: 20px; margin-bottom: 20px;">Resumen de Evaluaciones</h2>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Evaluación</th>
+                            <th>Puntuación</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="finalResultsTable">
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <div class="final-result" id="overallResult"></div>
+            </div>
+            
+            <div class="info-box" style="text-align: center;">
+                <p><strong>📊 Ponderación:</strong> Técnica 30% | Administrativa 30% | Organizacional 40%</p>
+            </div>
+            
+            <div class="buttons-group">
+                <button class="button" onclick="app.copyFinalResults()">📋 Copiar Evaluación Final</button>
+                <button class="button secondary" onclick="app.goBackToMain()">← Volver al menú</button>
+                <button class="button secondary" onclick="app.confirmResetAll()">🗑️ Limpiar Todo</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="copyFeedback" class="copy-feedback">✓ Copiado al portapapeles</div>
+    
+    <!-- MODAL CONFIRMACIÓN -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h2>⚠️ Advertencia</h2>
+            <p id="modalMessage">¿Estás seguro?</p>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="app.cancelAction()">Cancelar</button>
+                <button class="btn-confirm" onclick="app.confirmAction()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const app = {
+            data: {
+                candidateName: '',
+                currentEvalType: null,
+                currentQuestion: 0,
+                respuestas: {},
+                timeLeft: 1200,
+                timerInterval: null,
+                results: { tecnica: null, administrativa: null, organizacional: null },
+                pendingAction: null
+            },
+            
+            preguntas: {
+                tecnica: [
+                    { texto: "¿Qué tan rápido aprende nuevos procesos o sistemas?", opciones: [{t:'Muy rápido (1-2 días)',v:5},{t:'Rápido (1 semana)',v:4},{t:'Lento (más de 1 mes)',v:1},{t:'Moderado (2-3 semanas)',v:3}] },
+                    { texto: "Califica su nivel de experiencia en el rol específico", opciones: [{t:'Avanzado (2-5 años)',v:4},{t:'Experto (5+ años)',v:5},{t:'Novato (0-6 meses)',v:1},{t:'Intermedio (6-12 meses)',v:3}] },
+                    { texto: "¿Cómo maneja la resolución de problemas técnicos?", opciones: [{t:'Necesita supervisión constante',v:1},{t:'Busca ayuda regularmente',v:3},{t:'Proactivo y creativo',v:5},{t:'Sistemático y organizado',v:4}] },
+                    { texto: "Calidad de trabajo entregado normalmente", opciones: [{t:'Buena (mínimos errores)',v:4},{t:'Deficiente (errores frecuentes)',v:1},{t:'Excelente (sin errores)',v:5},{t:'Aceptable (errores ocasionales)',v:3}] },
+                    { texto: "¿Cumple con los estándares técnicos requeridos?", opciones: [{t:'Generalmente cumple',v:4},{t:'Frecuentemente no cumple',v:1},{t:'Siempre excede estándares',v:5},{t:'Cumple mínimamente',v:3}] },
+                    { texto: "Manejo de herramientas/software necesarios", opciones: [{t:'Sin experiencia',v:1},{t:'Necesita entrenamiento',v:3},{t:'Domina la mayoría',v:4},{t:'Domina todas las herramientas',v:5}] },
+                    { texto: "¿Solicita capacitación para mejorar competencias?", opciones: [{t:'Ocasionalmente',v:3},{t:'Nunca',v:1},{t:'Constantemente busca aprender',v:5},{t:'Frecuentemente',v:4}] },
+                    { texto: "Velocidad y eficiencia en tareas asignadas", opciones: [{t:'Por debajo del promedio',v:1},{t:'Promedio',v:3},{t:'Muy por encima del promedio',v:5},{t:'Encima del promedio',v:4}] },
+                    { texto: "¿Puede trabajar de forma independiente?", opciones: [{t:'Necesita supervisión constante',v:1},{t:'Necesita supervisión frecuente',v:3},{t:'Mayormente autónomo',v:4},{t:'Completamente autónomo',v:5}] },
+                    { texto: "Calificación general de desempeño técnico", opciones: [{t:'Necesita mejora',v:1},{t:'Satisfactorio',v:3},{t:'Bueno',v:4},{t:'Excepcional',v:5}] }
+                ],
+                administrativa: [
+                    { texto: "¿Cumple puntualmente con entrega de documentación?", opciones: [{t:'Frecuentemente tarde',v:1},{t:'Ocasionalmente tarde',v:3},{t:'Siempre a tiempo',v:5},{t:'Generalmente a tiempo',v:4}] },
+                    { texto: "Conocimiento de procesos administrativos de la empresa", opciones: [{t:'Sin conocimiento',v:1},{t:'Comprensión básica',v:3},{t:'Buena comprensión',v:4},{t:'Excelente comprensión',v:5}] },
+                    { texto: "¿Mantiene registros y documentación organizados?", opciones: [{t:'Desorganizado',v:1},{t:'Aceptablemente organizado',v:3},{t:'Bien organizado',v:4},{t:'Perfectamente organizado',v:5}] },
+                    { texto: "Asistencia y puntualidad al trabajo", opciones: [{t:'Deficiente (6+ ausencias)',v:1},{t:'Aceptable (4-5 ausencias)',v:3},{t:'Buena (2-3 ausencias)',v:4},{t:'Excelente (0-1 ausencias)',v:5}] },
+                    { texto: "¿Cumple con políticas y procedimientos de la empresa?", opciones: [{t:'Frecuentemente incumple',v:1},{t:'A veces cumple',v:3},{t:'Siempre cumple',v:5},{t:'Generalmente cumple',v:4}] },
+                    { texto: "Presentación y profesionalismo en el área de trabajo", opciones: [{t:'Deficiente',v:1},{t:'Aceptable',v:3},{t:'Bueno',v:4},{t:'Impecable',v:5}] },
+                    { texto: "¿Reporta correctamente incidencias o cambios?", opciones: [{t:'Rara vez reporta',v:1},{t:'A veces olvida reportar',v:3},{t:'Generalmente reporta',v:4},{t:'Siempre reporta detalladamente',v:5}] },
+                    { texto: "Cumplimiento de horarios y cambios de turno", opciones: [{t:'Poco flexible',v:1},{t:'Flexible en general',v:3},{t:'Muy flexible',v:4},{t:'Perfectamente flexible',v:5}] },
+                    { texto: "¿Entiende y respeta confidencialidad de información?", opciones: [{t:'No muestra comprensión',v:1},{t:'Comprensión básica',v:3},{t:'Buena comprensión',v:4},{t:'Total comprensión',v:5}] },
+                    { texto: "Calificación general administrativa", opciones: [{t:'Necesita mejora',v:1},{t:'Satisfactorio',v:3},{t:'Bueno',v:4},{t:'Excepcional',v:5}] }
+                ],
+                organizacional: [
+                    { texto: "Cometiste error en doc importante para cliente", opciones: [{t:'Esperas a que alguien lo descubra',v:1},{t:'Buscas arreglarlo sin que se note',v:1},{t:'Esperas al día siguiente a reportarlo',v:3},{t:'Lo reportas HOY al jefe',v:5}], mide: ['Comunicación','Responsabilidad'] },
+                    { texto: "Alguien propone idea que no funcionará en reunión", opciones: [{t:'Hablas mal de la idea',v:1},{t:'No dices nada para no incomodar',v:1},{t:'Lo dices después en privado',v:3},{t:'Dices directo: \"No creo que funcione porque...\"',v:5}], mide: ['Comunicación'] },
+                    { texto: "Prometiste entrega y NO la vas a cumplir", opciones: [{t:'No avises y esperas',v:1},{t:'Dices que fue culpa de otro',v:1},{t:'Entregas algo incompleto sin avisar',v:1},{t:'Lo reportas AHORA y buscas solución',v:5}], mide: ['Responsabilidad','Comunicación'] },
+                    { texto: "Jefe te asigna proyecto nuevo, no estás 100% seguro", opciones: [{t:'Dices que no puedes hacerlo',v:1},{t:'Haces lo que crees y esperas feedback',v:3},{t:'Intentas solo, sin preguntar',v:3},{t:'Preguntas qué espera y pides ayuda',v:5}], mide: ['Actitud','Responsabilidad'] },
+                    { texto: "Error de otro afecta tu trabajo, preguntan quién fue", opciones: [{t:'Aprovechas para quedar bien',v:1},{t:'Proteges al compañero',v:1},{t:'Dices que fue un error colectivo',v:3},{t:'Dices quién fue directamente',v:5}], mide: ['Comunicación','Colaboración'] },
+                    { texto: "Semana ocupada, compañero pide ayuda", opciones: [{t:'Lo ayudas solo si te beneficia',v:1},{t:'Dices que no tienes tiempo',v:1},{t:'Dices que verifique si es importante',v:2},{t:'Haces tiempo para ayudarlo',v:5}], mide: ['Colaboración','Actitud'] },
+                    { texto: "Cliente está molesto, jefe no lo sabe", opciones: [{t:'Lo mencionas de forma casual',v:2},{t:'Se lo dices pero echas culpa',v:1},{t:'Esperas a que el cliente se queje',v:1},{t:'Se lo reportas aunque sea mala noticia',v:5}], mide: ['Comunicación','Responsabilidad'] },
+                    { texto: "Error pequeño que nadie notó", opciones: [{t:'Lo arreglas sin que se note',v:2},{t:'Lo mencionas en la próxima junta',v:2},{t:'Lo dejas, no afecta nada',v:1},{t:'Lo reportas igual',v:5}], mide: ['Responsabilidad'] },
+                    { texto: "Hiciste propuesta y fue rechazada", opciones: [{t:'Dejas de proponer ideas',v:1},{t:'Piensas que el jefe no entiende',v:1},{t:'Te molesta pero lo aceptas',v:2},{t:'Entiendes por qué y buscas mejorarla',v:5}], mide: ['Actitud'] },
+                    { texto: "Ambiente en equipo está tenso", opciones: [{t:'Hablas mal de los que están molestos',v:1},{t:'Trabajas como siempre, no es tu problema',v:1},{t:'Esperas a que el jefe lo arregle',v:2},{t:'Intentas mejorar el clima con disposición',v:5}], mide: ['Energía','Actitud'] },
+                    { texto: "Prometiste fecha, a última hora no alcanzas", opciones: [{t:'Entregas sin la calidad acordada',v:1},{t:'Entregas incompleto sin avisar',v:1},{t:'Pides prórroga el último minuto',v:2},{t:'Reportas AHORA y buscas solución',v:5}], mide: ['Responsabilidad'] },
+                    { texto: "Tu compañero está abrumado con trabajo", opciones: [{t:'Le dices que se organice mejor',v:1},{t:'Haces tu trabajo nomás',v:1},{t:'Esperas a que la pida',v:2},{t:'Ofreces ayuda sin que te la pida',v:5}], mide: ['Colaboración'] },
+                    { texto: "Hiciste trabajo, no seguro si al 100%, entregas", opciones: [{t:'Defiendes tu trabajo',v:1},{t:'Culpas a otro por no revisar',v:1},{t:'Dices que las indicaciones eran vagas',v:1},{t:'Aceptas el error y lo corriges rápido',v:5}], mide: ['Responsabilidad'] },
+                    { texto: "Cliente te da mal trato en llamada, después", opciones: [{t:'Guardas rencor y lo tratas diferente',v:1},{t:'Te quejas con todo el equipo',v:1},{t:'Intentas complacerlo aunque sea injusto',v:2},{t:'Reportas lo que pasó sin dramatizar',v:5}], mide: ['Profesionalismo','Comunicación'] },
+                    { texto: "Hay problema pero reportarlo te hace quedar mal", opciones: [{t:'Lo ocultas',v:1},{t:'Esperas que otro lo reporte',v:1},{t:'Lo mencionas indirectamente',v:2},{t:'Lo reportas de todas formas',v:5}], mide: ['Comunicación'] },
+                    { texto: "Tu jefe te dio feedback duro", opciones: [{t:'Te afecta el ánimo todo el día',v:1},{t:'Defensas tu trabajo, no fue tan mal',v:1},{t:'Te molesta pero lo aceptas',v:2},{t:'Lo ves como oportunidad de mejorar',v:5}], mide: ['Energía','Actitud'] },
+                    { texto: "Ves que una regla del Reglamento es injusta", opciones: [{t:'La ignoras porque no estás de acuerdo',v:1},{t:'La cuestiono con todos, no es justa',v:2},{t:'La cumplo sin reclamo',v:3},{t:'La cumples igual, hablas del tema',v:5}], mide: ['Actitud','Responsabilidad'] },
+                    { texto: "Te asignan proyecto complicado", opciones: [{t:'Dices que es muy difícil',v:1},{t:'Esperas a que alguien más lo haga',v:1},{t:'Buscas información primero',v:4},{t:'Lo intentas, pides ayuda si necesitas',v:5}], mide: ['Actitud'] },
+                    { texto: "Compañero celebra logro que afectó al equipo", opciones: [{t:'Criticas su decisión con otros',v:1},{t:'No dices nada',v:1},{t:'Le señalas que el equipo quedó en problemas',v:3},{t:'Lo felicitas de todas formas',v:5}], mide: ['Colaboración','Comunicación'] },
+                    { texto: "Trabajaste duro, resultado no fue esperado", opciones: [{t:'Te desanimas y pierdes motivación',v:1},{t:'Buscas culpar a otro',v:1},{t:'Te frustra porque hiciste todo posible',v:2},{t:'Analizas qué salió mal y mejoras',v:5}], mide: ['Responsabilidad','Energía'] }
+                ]
+            },
+            
+            init() {
+                const saved = localStorage.getItem('app_data');
+                if (saved) this.data = JSON.parse(saved);
+                this.checkSavedName();
+                this.updateStatuses();
+            },
+            
+            checkSavedName() {
+                const savedName = localStorage.getItem('candidateName');
+                if (savedName) {
+                    document.getElementById('candidateName').value = savedName;
+                    document.getElementById('savedNameDisplay').textContent = savedName;
+                    document.getElementById('savedNameDiv').style.display = 'block';
+                } else {
+                    document.getElementById('savedNameDiv').style.display = 'none';
+                }
+            },
+            
+            useSavedName() {
+                const savedName = localStorage.getItem('candidateName');
+                if (savedName) {
+                    this.data.candidateName = savedName;
+                    this.saveData();
+                }
+            },
+            
+            changeName() {
+                document.getElementById('candidateName').value = '';
+                document.getElementById('savedNameDiv').style.display = 'none';
+            },
+            
+            saveData() {
+                localStorage.setItem('app_data', JSON.stringify(this.data));
+                localStorage.setItem('candidateName', this.data.candidateName);
+            },
+            
+            updateStatuses() {
+                ['tecnica', 'administrativa', 'organizacional'].forEach(type => {
+                    const el = document.getElementById(`${type}Status`);
+                    const card = document.getElementById(`${type}Card`);
+                    if (el && card) {
+                        if (this.data.results[type]) {
+                            el.textContent = 'Completada';
+                            el.className = 'eval-status done';
+                            card.classList.add('completed');
+                        } else {
+                            el.textContent = 'Pendiente';
+                            el.className = 'eval-status pending';
+                            card.classList.remove('completed');
+                        }
+                    }
+                });
+            },
+            
+            selectEvaluation(type) {
+                this.data.currentEvalType = type;
+                document.querySelectorAll('.eval-card').forEach(c => c.classList.remove('selected'));
+                document.getElementById(type + 'Card').classList.add('selected');
+            },
+            
+            startSelectedEvaluation() {
+                const name = document.getElementById('candidateName').value.trim();
+                if (!name) { alert('Por favor ingresa el nombre del candidato'); return; }
+                if (!this.data.currentEvalType) { alert('Por favor selecciona una evaluación'); return; }
+                
+                this.data.candidateName = name;
+                this.saveData();
+                
+                document.getElementById('mainScreen').classList.remove('active');
+                document.getElementById('instructionsScreen').classList.add('active');
+                
+                const titles = { tecnica: 'Evaluación Técnica', administrativa: 'Evaluación Administrativa', organizacional: 'Evaluación Organizacional' };
+                const instrs = {
+                    tecnica: ['El entrevistador evalúa competencias técnicas', 'Escala: 1-5 donde 5 es óptimo', '10 preguntas estructuradas'],
+                    administrativa: ['El entrevistador evalúa procesos administrativos', 'Escala: 1-5 donde 5 es óptimo', '10 preguntas estructuradas'],
+                    organizacional: ['El candidato responde sobre valores organizacionales', 'Duración: 20 minutos máximo', '20 preguntas de opción múltiple']
+                };
+                
+                document.getElementById('evalTitle').textContent = titles[this.data.currentEvalType];
+                document.getElementById('instrList').innerHTML = instrs[this.data.currentEvalType].map(i => `<li>${i}</li>`).join('');
+            },
+            
+            startTest() {
+                this.data.currentQuestion = 0;
+                this.data.respuestas = {};
+                this.data.timeLeft = 1200;
+                this.saveData();
+                document.getElementById('instructionsScreen').classList.remove('active');
+                document.getElementById('questionsScreen').classList.add('active');
+                this.renderQuestion();
+                this.startTimer();
+            },
+            
+            startTimer() {
+                clearInterval(this.data.timerInterval);
+                this.data.timerInterval = setInterval(() => {
+                    this.data.timeLeft--;
+                    const min = Math.floor(this.data.timeLeft / 60);
+                    const sec = this.data.timeLeft % 60;
+                    document.getElementById('timer').textContent = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+                    if (this.data.timeLeft <= 300) document.getElementById('timer').classList.add('warning');
+                    if (this.data.timeLeft <= 0) this.finishTest();
+                }, 1000);
+            },
+            
+            renderQuestion() {
+                const pregs = this.preguntas[this.data.currentEvalType];
+                const q = pregs[this.data.currentQuestion];
+                const selected = this.data.respuestas[this.data.currentQuestion] || '';
+                
+                let html = `
+                    <div class="question-box">
+                        <div class="question-number">Pregunta ${this.data.currentQuestion + 1} de ${pregs.length}</div>
+                        <div class="question-text">${q.texto}</div>
+                        <div class="options">
+                `;
+                
+                q.opciones.forEach((opt, idx) => {
+                    const letra = String.fromCharCode(65 + idx);
+                    html += `
+                        <div class="option ${selected === letra ? 'selected' : ''}" onclick="app.selectOption('${letra}')">
+                            <input type="radio" name="opcion" value="${letra}" ${selected === letra ? 'checked' : ''}>
+                            <label>${letra}) ${opt.t}</label>
+                        </div>
+                    `;
+                });
+                
+                html += `</div></div>`;
+                document.getElementById('questionContent').innerHTML = html;
+                
+                const total = pregs.length;
+                document.getElementById('progress').textContent = `Pregunta ${this.data.currentQuestion + 1} de ${total}`;
+                document.getElementById('progressBar').style.width = `${((this.data.currentQuestion + 1) / total) * 100}%`;
+            },
+            
+            selectOption(letra) {
+                this.data.respuestas[this.data.currentQuestion] = letra;
+                this.saveData();
+                this.renderQuestion();
+                
+                setTimeout(() => {
+                    const pregs = this.preguntas[this.data.currentEvalType];
+                    if (this.data.currentQuestion < pregs.length - 1) {
+                        this.data.currentQuestion++;
+                        this.saveData();
+                        this.renderQuestion();
+                        window.scrollTo(0, 0);
+                    } else {
+                        this.finishTest();
+                    }
+                }, 400);
+            },
+            
+            goBackQuestion() {
+                if (this.data.currentQuestion > 0) {
+                    this.data.currentQuestion--;
+                    this.saveData();
+                    this.renderQuestion();
+                    window.scrollTo(0, 0);
+                }
+            },
+            
+            finishTest() {
+                clearInterval(this.data.timerInterval);
+                this.calculateResults();
+                this.saveData();
+                document.getElementById('questionsScreen').classList.remove('active');
+                
+                if (this.data.currentEvalType === 'organizacional') {
+                    document.getElementById('handoverScreen').classList.add('active');
+                } else {
+                    this.showResults();
+                }
+            },
+            
+            goToInterviewerCheck() {
+                document.getElementById('handoverScreen').classList.remove('active');
+                document.getElementById('interviewerScreen').classList.add('active');
+            },
+            
+            confirmInterviewer() {
+                document.getElementById('interviewerScreen').classList.remove('active');
+                this.showResults();
+            },
+            
+            checkInterviewerForFinal() {
+                if (!this.data.candidateName) { alert('Por favor ingresa el nombre del candidato'); return; }
+                document.getElementById('mainScreen').classList.remove('active');
+                document.getElementById('interviewerFinalScreen').classList.add('active');
+            },
+            
+            confirmInterviewerFinal() {
+                document.getElementById('interviewerFinalScreen').classList.remove('active');
+                document.getElementById('finalResultsScreen').classList.add('active');
+                this.displayFinalResults();
+            },
+            
+            showResults() {
+                document.getElementById('questionsScreen').classList.remove('active');
+                document.getElementById('resultsScreen').classList.add('active');
+                this.displayResults();
+                window.scrollTo(0, 0);
+            },
+            
+            calculateResults() {
+                const type = this.data.currentEvalType;
+                const pregs = this.preguntas[type];
+                
+                if (type !== 'organizacional') {
+                    let suma = 0;
+                    for (let i = 0; i < pregs.length; i++) {
+                        const resp = this.data.respuestas[i];
+                        if (resp) {
+                            const opcionIdx = resp.charCodeAt(0) - 65;
+                            const opt = pregs[i].opciones[opcionIdx];
+                            if (opt) suma += opt.v;
+                        }
+                    }
+                    const promedio = (suma / pregs.length).toFixed(2);
+                    this.data.results[type] = { promedio };
+                } else {
+                    const valores = {}, count = {};
+                    const competencias = ['Comunicación','Responsabilidad','Actitud','Colaboración','Energía','Profesionalismo'];
+                    competencias.forEach(v => { valores[v] = 0; count[v] = 0; });
+                    
+                    for (let i = 0; i < pregs.length; i++) {
+                        const resp = this.data.respuestas[i];
+                        if (resp) {
+                            const opcionIdx = resp.charCodeAt(0) - 65;
+                            const opt = pregs[i].opciones[opcionIdx];
+                            if (opt && pregs[i].mide) {
+                                pregs[i].mide.forEach(v => {
+                                    valores[v] += opt.v;
+                                    count[v]++;
+                                });
+                            }
+                        }
+                    }
+                    
+                    const promedios = {};
+                    competencias.forEach(v => {
+                        promedios[v] = parseFloat((valores[v] / count[v]).toFixed(2));
+                    });
+                    
+                    const ponderado = (promedios['Comunicación']*0.30)+(promedios['Responsabilidad']*0.30)+(promedios['Actitud']*0.20)+(promedios['Colaboración']*0.10)+(promedios['Energía']*0.05)+(promedios['Profesionalismo']*0.05);
+                    const final = parseFloat(ponderado.toFixed(2));
+                    
+                    this.data.results[type] = { promedios, final };
+                }
+            },
+            
+            displayResults() {
+                const type = this.data.currentEvalType;
+                const result = this.data.results[type];
+                
+                if (!result) { alert('Sin resultados'); return; }
+                
+                document.getElementById('resultsTitle').textContent = `Resultados - ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+                document.getElementById('resultName').textContent = `Candidato: ${this.data.candidateName}`;
+                document.getElementById('resultDate').textContent = `Fecha: ${new Date().toLocaleDateString('es-MX')}`;
+                
+                let html = '';
+                if (type !== 'organizacional') {
+                    const score = parseFloat(result.promedio);
+                    const nivel = score >= 4 ? '<span class="level level-strong">Muy Fuerte</span>' : score >= 3 ? '<span class="level level-medium">Adecuado</span>' : '<span class="level level-weak">Requiere Mejora</span>';
+                    const bar = `<div class="score-bar" style="width: ${score*20}px;"></div>`;
+                    html = `<tr><td><strong>${type.charAt(0).toUpperCase() + type.slice(1)}</strong></td><td><span class="score">${score}/5</span> ${bar}</td><td>${nivel}</td></tr>`;
+                } else {
+                    ['Comunicación','Responsabilidad','Actitud','Colaboración','Energía','Profesionalismo'].forEach(v => {
+                        const score = result.promedios[v];
+                        const nivel = score >= 4 ? '<span class="level level-strong">Muy Fuerte</span>' : score >= 3 ? '<span class="level level-medium">Adecuado</span>' : '<span class="level level-weak">Requiere Mejora</span>';
+                        const bar = `<div class="score-bar" style="width: ${score*20}px;"></div>`;
+                        html += `<tr><td><strong>${v}</strong></td><td><span class="score">${score}/5</span> ${bar}</td><td>${nivel}</td></tr>`;
+                    });
+                }
+                
+                document.getElementById('resultsTable').innerHTML = html;
+                
+                const scoreToDisplay = type !== 'organizacional' ? parseFloat(result.promedio) : result.final;
+                const cls = scoreToDisplay >= 3 ? 'approved' : 'notapproved';
+                const txt = scoreToDisplay >= 3 ? '✓ APROBADO' : '✗ NO APROBADO';
+                document.getElementById('finalResult').className = 'final-result ' + cls;
+                document.getElementById('finalResult').innerHTML = `<div class="final-score">${scoreToDisplay}/5.0</div><div>${txt}</div>`;
+            },
+            
+            copyResults() {
+                const type = this.data.currentEvalType;
+                const result = this.data.results[type];
+                
+                if (!result) { alert('No hay resultados para copiar'); return; }
+                
+                let text = `EVALUACIÓN ${type.toUpperCase()} - IDENTILABEL\n`;
+                text += `Candidato: ${this.data.candidateName}\n`;
+                text += `Fecha: ${new Date().toLocaleDateString('es-MX')}\n\n`;
+                
+                if (type !== 'organizacional') {
+                    const score = parseFloat(result.promedio);
+                    text += `Puntuación: ${score}/5.0\n`;
+                    text += `Estado: ${score >= 3 ? 'APROBADO' : 'NO APROBADO'}`;
+                } else {
+                    text += 'COMPETENCIAS:\n';
+                    ['Comunicación','Responsabilidad','Actitud','Colaboración','Energía','Profesionalismo'].forEach(c => {
+                        text += `${c}: ${result.promedios[c]}/5\n`;
+                    });
+                    text += `\nCalificativo Final: ${result.final}/5.0\n`;
+                    text += `Estado: ${result.final >= 3 ? 'APROBADO' : 'NO APROBADO'}`;
+                }
+                
+                navigator.clipboard.writeText(text).then(() => {
+                    document.getElementById('copyFeedback').classList.add('show');
+                    setTimeout(() => document.getElementById('copyFeedback').classList.remove('show'), 2000);
+                }).catch(err => alert('Error: ' + err.message));
+            },
+            
+            displayFinalResults() {
+                document.getElementById('finalCandidateName').textContent = `Candidato: ${this.data.candidateName}`;
+                document.getElementById('finalCandidateDate').textContent = `Fecha: ${new Date().toLocaleDateString('es-MX')}`;
+                
+                let html = '';
+                const typeNames = { tecnica: 'Técnica', administrativa: 'Administrativa', organizacional: 'Organizacional' };
+                const scores = {};
+                
+                ['tecnica', 'administrativa', 'organizacional'].forEach(type => {
+                    const result = this.data.results[type];
+                    if (!result) {
+                        html += `<tr><td><strong>${typeNames[type]}</strong></td><td colspan="2" style="text-align:center; color:#999;">No evaluada</td></tr>`;
+                        scores[type] = 0;
+                    } else {
+                        const score = type !== 'organizacional' ? parseFloat(result.promedio) : result.final;
+                        const nivel = score >= 3 ? '<span class="level level-strong">✓ APROBADO</span>' : '<span class="level level-weak">✗ NO APROBADO</span>';
+                        const bar = `<div class="score-bar" style="width: ${score*20}px;"></div>`;
+                        html += `<tr><td><strong>${typeNames[type]}</strong></td><td><span class="score">${score}/5</span> ${bar}</td><td>${nivel}</td></tr>`;
+                        scores[type] = score;
+                    }
+                });
+                
+                document.getElementById('finalResultsTable').innerHTML = html;
+                
+                const weights = { tecnica: 0.30, administrativa: 0.30, organizacional: 0.40 };
+                const overall = (scores.tecnica || 0) * weights.tecnica + (scores.administrativa || 0) * weights.administrativa + (scores.organizacional || 0) * weights.organizacional;
+                const overallScore = parseFloat(overall.toFixed(2));
+                
+                const cls = overallScore >= 3 ? 'approved' : 'notapproved';
+                const txt = overallScore >= 3 ? '✓ CANDIDATO APROBADO' : '✗ CANDIDATO NO APROBADO';
+                document.getElementById('overallResult').className = 'final-result ' + cls;
+                document.getElementById('overallResult').innerHTML = `<div class="final-score">${overallScore}/5.0</div><div>${txt}</div>`;
+            },
+            
+            copyFinalResults() {
+                const scores = { 
+                    tecnica: this.data.results.tecnica?.promedio || '0', 
+                    administrativa: this.data.results.administrativa?.promedio || '0', 
+                    organizacional: this.data.results.organizacional?.final || '0' 
+                };
+                const overall = (parseFloat(scores.tecnica) * 0.30 + parseFloat(scores.administrativa) * 0.30 + parseFloat(scores.organizacional) * 0.40).toFixed(2);
+                const text = `EVALUACIÓN FINAL - IDENTILABEL\nCandidato: ${this.data.candidateName}\nFecha: ${new Date().toLocaleDateString('es-MX')}\n\nTécnica: ${scores.tecnica}/5\nAdministrativa: ${scores.administrativa}/5\nOrganizacional: ${scores.organizacional}/5\n\nCALIFICATIVO FINAL: ${overall}/5.0\nEstado: ${overall >= 3 ? 'APROBADO' : 'NO APROBADO'}`;
+                
+                navigator.clipboard.writeText(text).then(() => {
+                    document.getElementById('copyFeedback').classList.add('show');
+                    setTimeout(() => document.getElementById('copyFeedback').classList.remove('show'), 2000);
+                }).catch(err => alert('Error: ' + err.message));
+            },
+            
+            goBackToMain() {
+                clearInterval(this.data.timerInterval);
+                document.getElementById('resultsScreen').classList.remove('active');
+                document.getElementById('finalResultsScreen').classList.remove('active');
+                document.getElementById('interviewerScreen').classList.remove('active');
+                document.getElementById('interviewerFinalScreen').classList.remove('active');
+                document.getElementById('handoverScreen').classList.remove('active');
+                document.getElementById('questionsScreen').classList.remove('active');
+                document.getElementById('instructionsScreen').classList.remove('active');
+                document.getElementById('mainScreen').classList.add('active');
+                this.updateStatuses();
+            },
+            
+            confirmResetAll() {
+                this.data.pendingAction = 'reset';
+                document.getElementById('modalMessage').textContent = '¿Estás seguro de que deseas borrar TODA la información? Esta acción no se puede deshacer.';
+                document.getElementById('confirmModal').classList.add('active');
+            },
+            
+            confirmAction() {
+                if (this.data.pendingAction === 'reset') {
+                    localStorage.removeItem('app_data');
+                    this.data = { candidateName: '', currentEvalType: null, currentQuestion: 0, respuestas: {}, timeLeft: 1200, timerInterval: null, results: { tecnica: null, administrativa: null, organizacional: null }, pendingAction: null };
+                    document.getElementById('candidateName').value = '';
+                    document.getElementById('finalResultsScreen').classList.remove('active');
+                    document.getElementById('mainScreen').classList.add('active');
+                    this.updateStatuses();
+                }
+                document.getElementById('confirmModal').classList.remove('active');
+            },
+            
+            cancelAction() {
+                this.data.pendingAction = null;
+                document.getElementById('confirmModal').classList.remove('active');
+            }
+        };
+        
+        app.init();
+    </script>
+</body>
+</html>
