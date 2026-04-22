@@ -3,428 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Evaluación IDENTILABEL</title>
+    <title>Evaluación IDENTILABEL</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --primary: #0051D8;
-            --primary-light: #5B9FFF;
-            --primary-lighter: #E8F1FF;
-            --accent: #E63946;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --red: #EF4444;
-            --gray: #6b7280;
-            --gray-light: #f3f4f6;
-            --dark: #1a1a1a;
-        }
-
-        html, body { height: 100%; width: 100%; }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #0051D8 0%, #5B9FFF 50%, #00d4ff 100%));
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            margin: 0;
-        }
-
-        .container {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-            width: 100%;
-            max-width: 900px;
-            padding: 60px 50px;
-            animation: slideUp 0.5s ease-out;
-        }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
+        body { font-family: 'Roboto', sans-serif; background: linear-gradient(135deg, #0051D8 0%, #5B9FFF 50%, #00d4ff 100%); min-height: 100vh; display: flex; justify-content: center; padding: 40px 20px; }
+        .container { background: white; border-radius: 16px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); width: 100%; max-width: 900px; padding: 40px; }
         .screen { display: none; }
         .screen.active { display: block; }
-        .text-center { text-align: center; }
-        
-        .logo { font-size: 40px; font-weight: 700; color: var(--primary); margin-bottom: 15px; }
-        h1 { color: var(--primary); font-size: 32px; font-weight: 700; margin-bottom: 40px; }
-        h2 { color: var(--primary); font-size: 22px; font-weight: 700; margin: 40px 0 30px 0; }
-        h3 { color: var(--dark); font-size: 18px; font-weight: 600; }
-        h4 { color: var(--dark); font-size: 14px; font-weight: 700; margin: 15px 0 10px 0; }
-
+        h1 { color: #0051D8; font-size: 28px; margin-bottom: 30px; text-align: center; }
+        h2 { color: #0051D8; font-size: 20px; margin: 20px 0 15px 0; }
+        h3 { color: #1a1a1a; font-size: 16px; }
         .form-group { margin: 20px 0; }
-        .form-group label { display: block; color: var(--primary); font-weight: 600; margin-bottom: 10px; font-size: 15px; }
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
-            font-family: 'Roboto';
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: white;
-            color: var(--dark);
-        }
-        .form-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0, 81, 216, 0.1); }
-        .form-group input::placeholder { color: var(--gray); }
-
-        .form-container { background: var(--primary-lighter); padding: 30px; border-radius: 12px; margin: 30px 0; border-left: 5px solid var(--primary); }
-
-        .candidate-display {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%));
-            color: white;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(0, 81, 216, 0.2);
-        }
-
-        .candidate-display h3 { color: white; margin-bottom: 10px; font-size: 20px; }
-        .candidate-display p { color: rgba(255, 255, 255, 0.95); font-size: 14px; margin-bottom: 15px; }
-
-        .eval-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; margin: 40px 0; }
-
-        .eval-card {
-            background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 35px 25px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .eval-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(0, 81, 216, 0.1); transform: translateY(-3px); }
-        .eval-card.selected { background: var(--primary-lighter); border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0, 81, 216, 0.15); }
+        .form-group label { display: block; color: #0051D8; font-weight: 600; margin-bottom: 8px; }
+        .form-group input { width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 14px; }
+        .form-group input:focus { outline: none; border-color: #0051D8; box-shadow: 0 0 0 3px rgba(0,81,216,0.1); }
+        .btn { background: #0051D8; color: white; padding: 12px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 15px; width: 100%; }
+        .btn:hover { background: #003fa3; }
+        .btn-secondary { background: white; color: #0051D8; border: 2px solid #0051D8; }
+        .btn-danger { background: #EF4444; }
+        .eval-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 30px 0; }
+        .eval-card { background: white; border: 2px solid #e5e7eb; border-radius: 14px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; }
+        .eval-card:hover { border-color: #0051D8; box-shadow: 0 10px 30px rgba(0,81,216,0.1); transform: translateY(-3px); }
+        .eval-card.selected { background: #E8F1FF; border-color: #0051D8; }
         .eval-card.disabled { opacity: 0.6; cursor: not-allowed; }
-        .eval-card.disabled:hover { transform: none; box-shadow: none; border-color: #e5e7eb; }
-
-        .eval-icon { width: 50px; height: 50px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; }
-        .eval-icon svg { width: 100%; height: 100%; }
-        .eval-title { color: var(--primary); font-size: 17px; font-weight: 700; margin-bottom: 12px; }
-        .eval-status {
-            font-size: 11px;
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 20px;
-            margin-top: 12px;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .eval-icon { width: 80px; height: 80px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; }
+        .eval-icon svg { width: 100%; height: 100%; color: #0051D8; stroke: #0051D8; }
+        .eval-title { color: #0051D8; font-weight: 700; margin: 15px 0; font-size: 16px; }
+        .eval-status { display: inline-block; font-size: 10px; font-weight: 600; padding: 5px 12px; border-radius: 20px; text-transform: uppercase; }
         .eval-status.pending { background: #fee2e2; color: #991b1b; }
         .eval-status.done { background: #d1fae5; color: #065f46; }
-        .selected-indicator { color: var(--primary); font-size: 12px; font-weight: 700; margin-top: 12px; display: none; text-transform: uppercase; }
-        .eval-card.selected .selected-indicator { display: block; }
-
-        .instruction-box {
-            background: var(--primary-lighter);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 30px 0;
-            border-left: 5px solid var(--primary);
-            font-size: 13px;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
-        .instruction-box strong { color: var(--primary); }
-
-        .question-section { background: var(--primary-lighter); padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 5px solid var(--primary); }
-        .question-number { color: var(--accent); font-weight: 700; font-size: 13px; margin-bottom: 10px; text-transform: uppercase; }
-        .question-text { color: var(--dark); font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.6; }
-        .options { display: flex; flex-direction: column; gap: 12px; }
-        .option { display: flex; align-items: flex-start; padding: 14px; border: 2px solid #e5e7eb; border-radius: 10px; background: white; cursor: pointer; transition: all 0.2s ease; }
-        .option:hover { border-color: var(--primary); background: var(--primary-lighter); }
-        .option input { margin-right: 12px; cursor: pointer; width: 18px; height: 18px; margin-top: 3px; flex-shrink: 0; accent-color: var(--primary); }
-        .option.selected { border-color: var(--primary); background: var(--primary-lighter); }
-        .option label { cursor: pointer; flex: 1; font-size: 14px; color: var(--dark); line-height: 1.5; }
-
-        .button {
-            background: var(--primary);
-            color: white;
-            padding: 14px 30px;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Roboto';
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 25px;
-            width: 100%;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .button:hover { background: #003fa3; box-shadow: 0 10px 25px rgba(0, 81, 216, 0.2); }
-        .button:active { transform: scale(0.98); }
-        .button.secondary { background: white; color: var(--primary); border: 2px solid var(--primary); box-shadow: none; }
-        .button.secondary:hover { background: var(--primary-lighter); }
-        .button.danger { background: var(--red); }
-        .button.danger:hover { background: #dc2626; }
-        .button.success { background: var(--success); }
-        .button.success:hover { background: #059669; }
-
-        .progress-section { background: var(--primary-lighter); padding: 20px; border-radius: 10px; margin-bottom: 30px; }
-        .progress-bar { width: 100%; height: 10px; background: #e5e7eb; border-radius: 5px; overflow: hidden; margin-bottom: 12px; }
-        .progress-fill { height: 100%; background: var(--primary); border-radius: 5px; transition: width 0.3s ease; }
-        .progress-text { font-size: 13px; color: var(--gray); font-weight: 600; }
-
-        .timer {
-            font-size: 20px;
-            font-weight: 700;
-            padding: 12px 24px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-bottom: 20px;
-            background: var(--primary);
-            color: white;
-        }
-        .timer.warning { background: var(--warning); }
-        .timer.danger { background: var(--red); animation: pulse 1s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
-
-        .thank-you-box {
-            background: linear-gradient(135deg, var(--success) 0%, #1abc9c 100%));
-            color: white;
-            padding: 60px;
-            border-radius: 14px;
-            text-align: center;
-        }
-        .thank-you-box h2 { color: white; font-size: 36px; margin-bottom: 25px; margin-top: 0; font-weight: 700; }
-        .thank-you-box p { font-size: 16px; line-height: 1.8; margin-bottom: 15px; color: white; font-weight: 500; }
-
-        .results-header {
-            padding: 40px;
-            border-radius: 14px;
-            text-align: center;
-            margin-bottom: 30px;
-            color: white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .results-header.excellent { background: linear-gradient(135deg, #10b981 0%, #1abc9c 100%)); }
-        .results-header.good { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)); }
-        .results-header.acceptable { background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)); color: #000; }
-        .results-header.rejected { background: linear-gradient(135deg, #EF4444 0%, #c0392b 100%)); }
-
-        .results-score { font-size: 72px; font-weight: 700; margin-bottom: 15px; line-height: 1; }
-        .results-label { font-size: 26px; font-weight: 700; margin-bottom: 25px; }
-        .player-badge { font-size: 18px; font-weight: 700; padding: 15px 30px; background: rgba(255, 255, 255, 0.3); border-radius: 30px; display: inline-block; }
-
-        .summary-table {
-            width: 100%;
-            margin: 30px 0;
-            border-collapse: collapse;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .summary-table th {
-            background: var(--primary);
-            color: white;
-            padding: 16px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 13px;
-            text-transform: uppercase;
-        }
-
-        .summary-table td {
-            padding: 16px;
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 14px;
-            color: var(--dark);
-        }
-
-        .summary-table tr:nth-child(even) { background: var(--gray-light); }
-        .summary-table tr:last-child td { border-bottom: none; }
-
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 11px;
-            text-transform: uppercase;
-        }
-        .status-badge.aceptable { background: #d1fae5; color: #065f46; }
-        .status-badge.no-aceptable { background: #fee2e2; color: #991b1b; }
-
-        .methodology-box {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            margin: 30px 0;
-            border: 2px solid var(--primary);
-        }
-
-        .methodology-box h4 { color: var(--primary); margin-bottom: 20px; font-size: 18px; }
-
-        .method-item {
-            background: var(--primary-lighter);
-            padding: 18px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--primary);
-            font-size: 14px;
-            line-height: 1.7;
-            color: var(--dark);
-        }
-
-        .method-item strong { color: var(--primary); font-size: 15px; }
-
-        .players-box {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            margin: 30px 0;
-            border: 2px solid var(--primary);
-        }
-
-        .players-box h4 { color: var(--primary); margin-bottom: 20px; font-size: 18px; }
-
-        .player-item {
-            background: var(--primary-lighter);
-            padding: 18px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--primary);
-            font-size: 14px;
-            line-height: 1.7;
-            color: var(--dark);
-        }
-
-        .player-item strong { color: var(--primary); font-size: 15px; }
-
-        .prevalidation-box {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin: 25px 0;
-            border: 2px solid var(--warning);
-        }
-
-        .prevalidation-box h4 { color: var(--primary); margin-bottom: 20px; font-size: 16px; }
-
-        .prevalidation-item {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.02) 100%));
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border-left: 3px solid var(--warning);
-            font-size: 13px;
-            color: var(--dark);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .prevalidation-item .label { font-weight: 600; color: var(--dark); }
-        .prevalidation-item .value { color: var(--primary); font-weight: 700; background: white; padding: 6px 12px; border-radius: 6px; }
-
-        .conclusion-box {
-            background: var(--primary-lighter);
-            padding: 30px;
-            border-radius: 12px;
-            margin: 30px 0;
-            border-left: 5px solid var(--primary);
-            color: var(--dark);
-            font-size: 15px;
-            line-height: 1.8;
-        }
-
-        .conclusion-title {
-            color: var(--primary);
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .conclusion-text { color: var(--dark); }
-
-        .buttons-group { display: flex; gap: 12px; flex-direction: column; margin-top: 40px; }
-        .buttons-group button { width: 100%; }
-        .buttons-row { display: flex; gap: 12px; margin-top: 25px; }
-        .buttons-row button { flex: 1; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; z-index: 1000; }
+        .progress-bar { width: 100%; height: 8px; background: #e5e7eb; border-radius: 5px; overflow: hidden; margin-bottom: 10px; }
+        .progress-fill { height: 100%; background: #0051D8; transition: width 0.3s; }
+        .question { background: #E8F1FF; padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 5px solid #0051D8; }
+        .question-text { font-size: 15px; font-weight: 600; margin-bottom: 15px; color: #1a1a1a; line-height: 1.5; }
+        .options { display: flex; flex-direction: column; gap: 10px; }
+        .option { padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
+        .option:hover { border-color: #0051D8; background: #E8F1FF; }
+        .option.selected { border-color: #0051D8; background: #E8F1FF; }
+        .option input { margin-right: 10px; cursor: pointer; }
+        .result-header { padding: 35px; border-radius: 14px; text-align: center; margin: 20px 0; color: white; }
+        .result-header.excellent { background: #10b981; }
+        .result-header.good { background: #0051D8; }
+        .result-header.acceptable { background: #f59e0b; color: #000; }
+        .result-header.rejected { background: #EF4444; }
+        .result-score { font-size: 64px; font-weight: 700; }
+        .result-label { font-size: 20px; font-weight: 700; margin: 10px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #0051D8; color: white; padding: 12px; text-align: left; font-weight: 600; }
+        td { padding: 12px; border-bottom: 1px solid #e5e7eb; }
+        tr:nth-child(even) { background: #f3f4f6; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
         .modal.active { display: flex; }
-        .modal-content { background: white; padding: 45px; border-radius: 14px; text-align: center; max-width: 500px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2); }
-        .modal-content h2 { color: var(--primary); margin-bottom: 20px; font-size: 24px; }
-        .modal-content p { color: var(--gray); margin-bottom: 25px; line-height: 1.6; font-size: 15px; }
-        .modal-buttons { display: flex; gap: 12px; margin-top: 30px; }
-        .modal-buttons button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
-
-        @media (max-width: 768px) {
-            .container { padding: 40px 25px; }
-            h1 { font-size: 24px; margin-bottom: 30px; }
-            .eval-grid { grid-template-columns: 1fr; gap: 15px; }
-            .buttons-row { flex-direction: column; }
-            .buttons-row button { width: 100%; }
-            .results-score { font-size: 48px; }
-        }
+        .modal-content { background: white; padding: 40px; border-radius: 14px; text-align: center; max-width: 450px; }
+        .info-box { background: #E8F1FF; padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 5px solid #0051D8; font-size: 13px; line-height: 1.6; }
+        .info-box strong { color: #0051D8; }
+        .prevalidation-section { background: white; padding: 20px; border-radius: 12px; margin: 20px 0; border: 2px solid #f59e0b; }
+        .prevalidation-section h3 { color: #0051D8; margin-bottom: 15px; }
+        .prevalidation-item { background: #fef3c7; padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #f59e0b; font-size: 12px; color: #1a1a1a; display: flex; justify-content: space-between; align-items: center; }
+        .prevalidation-item .label { font-weight: 600; }
+        .prevalidation-item .value { color: #0051D8; font-weight: 700; background: white; padding: 4px 10px; border-radius: 6px; font-size: 11px; }
+        .footer { text-align: center; padding: 15px 0; margin-top: 30px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #9ca3af; }
+        .footer a { color: #0051D8; text-decoration: none; font-weight: 600; }
+        .footer a:hover { text-decoration: underline; }
+        .version-badge { display: inline-block; background: #E8F1FF; color: #0051D8; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; margin-bottom: 20px; text-transform: uppercase; }
+        @media (max-width: 768px) { .eval-grid { grid-template-columns: 1fr; } .result-score { font-size: 48px; } }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- PANTALLA 1: MENÚ PRINCIPAL -->
-        <div id="menuScreen" class="screen active">
-            <div class="text-center">
-                <div class="logo">🏷️ IDENTILABEL</div>
-                <h1>Sistema de Evaluación</h1>
+        <!-- LOGIN -->
+        <div id="loginScreen" class="screen active">
+            <div class="version-badge">v2.0 - Versión Estable</div>
+            <h1>📋 IDENTILABEL</h1>
+            <h2>Acceso Entrevistadores</h2>
+            <div class="form-group">
+                <label>Tu Nombre</label>
+                <input type="text" id="nameValidation" placeholder="Ej: Manuel Rodriguez">
             </div>
+            <button class="btn" onclick="app.login()">Continuar</button>
+            <div class="footer">Diseñado por <a href="https://www.instagram.com/lemannuu" target="_blank">@lemannuu</a></div>
+        </div>
 
+        <!-- MENÚ -->
+        <div id="menuScreen" class="screen">
+            <h1>Sistema de Evaluación</h1>
             <div id="formSection">
-                <div class="form-container">
-                    <div class="form-group">
-                        <label for="candidateName">Nombre del candidato *</label>
-                        <input type="text" id="candidateName" placeholder="Ej: Juan García López">
-                    </div>
-                    <div class="form-group">
-                        <label for="candidateArea">Área / Departamento *</label>
-                        <input type="text" id="candidateArea" placeholder="Ej: Producción">
-                    </div>
-                    <button class="button" onclick="saveCandidate()">Guardar Datos</button>
+                <div class="form-group">
+                    <label>Nombre Candidato</label>
+                    <input type="text" id="candidateName">
                 </div>
+                <div class="form-group">
+                    <label>Área</label>
+                    <input type="text" id="candidateArea">
+                </div>
+                <button class="btn" onclick="app.saveCandidate()">Guardar</button>
             </div>
 
             <div id="savedSection" style="display:none;">
-                <div class="candidate-display">
-                    <h3 id="displayName"></h3>
-                    <p><strong>Área:</strong> <span id="displayArea"></span></p>
-                    <button class="button secondary" onclick="editCandidate()">Cambiar Datos</button>
+                <div style="background: #0051D8; color: white; padding: 25px; border-radius: 12px; text-align: center; margin: 20px 0;">
+                    <h3 id="dispName" style="color: white; margin-bottom: 10px;"></h3>
+                    <p id="dispArea" style="color: white; margin: 0;"></p>
                 </div>
 
-                <div class="instruction-box">
-                    <strong>Paso 2:</strong> Selecciona una evaluación y haz clic en "Iniciar" para comenzar
-                </div>
-
-                <h2 style="text-align: center;">Selecciona evaluación</h2>
-
+                <h2 style="text-align: center;">Evaluaciones</h2>
                 <div class="eval-grid">
-                    <div class="eval-card" id="cardTecnica" onclick="selectEval('tecnica')">
+                    <div class="eval-card" id="card1" onclick="app.selectEval('tecnica')">
                         <div class="eval-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 1 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
                             </svg>
                         </div>
                         <div class="eval-title">Técnica</div>
-                        <div class="eval-status pending" id="statusTecnica">Pendiente</div>
-                        <div class="selected-indicator">✓ Seleccionada</div>
+                        <div class="eval-status pending" id="st1">Pendiente</div>
                     </div>
-
-                    <div class="eval-card" id="cardAdmin" onclick="selectEval('administrativa')">
+                    <div class="eval-card" id="card2" onclick="app.selectEval('administrativa')">
                         <div class="eval-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
                                 <line x1="12" y1="11" x2="12" y2="17"></line>
@@ -432,13 +127,11 @@
                             </svg>
                         </div>
                         <div class="eval-title">Administrativa</div>
-                        <div class="eval-status pending" id="statusAdmin">Pendiente</div>
-                        <div class="selected-indicator">✓ Seleccionada</div>
+                        <div class="eval-status pending" id="st2">Pendiente</div>
                     </div>
-
-                    <div class="eval-card" id="cardOrg" onclick="selectEval('organizacional')">
+                    <div class="eval-card" id="card3" onclick="app.selectEval('organizacional')">
                         <div class="eval-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="9" cy="7" r="4"></circle>
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -446,504 +139,138 @@
                             </svg>
                         </div>
                         <div class="eval-title">Organizacional</div>
-                        <div class="eval-status pending" id="statusOrg">Pendiente</div>
-                        <div class="selected-indicator">✓ Seleccionada</div>
+                        <div class="eval-status pending" id="st3">Pendiente</div>
                     </div>
                 </div>
 
-                <button class="button" onclick="startEvaluation()">Iniciar Evaluación</button>
-                <button class="button success" onclick="showResults()">Ver Resultados</button>
-                <button class="button danger" onclick="confirmReset()">Reiniciar</button>
+                <button class="btn" onclick="app.startEval()">Iniciar</button>
+                <button class="btn" onclick="app.showResults()">Ver Resultados</button>
+                <button class="btn btn-danger" onclick="app.confirmReset()">Reiniciar</button>
             </div>
         </div>
 
-        <!-- PANTALLA 2: EVALUACIÓN EN CURSO -->
+        <!-- EVALUACIÓN -->
         <div id="evalScreen" class="screen">
-            <div class="text-center">
-                <div class="logo">🏷️ IDENTILABEL</div>
-                <h1 id="evalTitle">Evaluación</h1>
-                <div id="timerDiv" style="display:none;">
-                    <div class="timer" id="timerDisplay">15:00</div>
-                </div>
+            <h1 id="evalTitle">Evaluación</h1>
+            <div id="timerDiv" style="display:none;">
+                <div style="font-size: 18px; font-weight: 700; color: #0051D8; text-align: center; margin-bottom: 20px;" id="timer">15:00</div>
             </div>
-
-            <div class="progress-section">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-                </div>
-                <div id="progressText">Pregunta 1</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progFill"></div>
             </div>
-
+            <div id="progText" style="font-size: 12px; margin-bottom: 20px;"></div>
             <div id="questionDiv"></div>
-
-            <div class="buttons-row" id="navButtons">
-                <button class="button secondary" onclick="goBack()">← Anterior</button>
-                <button class="button secondary" onclick="goNext()">Siguiente →</button>
+            <div style="display: flex; gap: 10px; margin-top: 20px;" id="navBtns">
+                <button class="btn btn-secondary" onclick="app.goBack()">← Anterior</button>
+                <button class="btn btn-secondary" onclick="app.goNext()">Siguiente →</button>
             </div>
         </div>
 
-        <!-- PANTALLA 3: GRACIAS -->
+        <!-- GRACIAS -->
         <div id="thankYouScreen" class="screen">
-            <div class="text-center">
-                <div class="logo">🏷️ IDENTILABEL</div>
-            </div>
-            <div class="thank-you-box">
-                <h2>¡Evaluación Completada! ✓</h2>
-                <p>Gracias por tu tiempo evaluando al candidato.</p>
-                <p>Los resultados te ayudarán a tomar la mejor decisión.</p>
-                <button class="button secondary" style="width: auto; padding: 12px 40px; margin-top: 30px; background: white; color: var(--success); border: 2px solid white;" onclick="backToMenu()">Volver al Menú</button>
+            <div style="background: #10b981; color: white; padding: 50px; border-radius: 14px; text-align: center;">
+                <h2 style="color: white; font-size: 32px;">¡Evaluación Completada! ✓</h2>
+                <p style="margin: 15px 0; color: white; font-size: 16px;">Gracias por tu tiempo evaluando al candidato.</p>
+                <p style="margin: 15px 0; color: white; font-size: 16px;">Los resultados te ayudarán a tomar la mejor decisión.</p>
+                <button class="btn btn-secondary" style="background: white; color: #10b981; border: none; margin-top: 30px;" onclick="app.backToMenu()">Volver al Menú</button>
             </div>
         </div>
 
-        <!-- PANTALLA 4: RESULTADOS -->
+        <!-- RESULTADOS -->
         <div id="resultsScreen" class="screen">
-            <div class="text-center">
-                <div class="logo">🏷️ IDENTILABEL</div>
-                <h1>Resultados Finales</h1>
-            </div>
-            
+            <h1>Resultados Finales</h1>
             <div id="resultsDiv"></div>
-            
-            <div class="buttons-group">
-                <button class="button" onclick="copyResults()">📋 Copiar Resultados</button>
-                <button class="button secondary" onclick="backToMenu()">Volver al Menú</button>
-            </div>
+            <button class="btn" onclick="app.copyResults()">📋 Copiar Resultados</button>
+            <button class="btn btn-secondary" onclick="app.backToMenu()">Volver al Menú</button>
+            <div class="footer">Diseñado por <a href="https://www.instagram.com/lemannuu" target="_blank">@lemannuu</a> | v2.0</div>
         </div>
     </div>
 
-    <div id="resetModal" class="modal">
+    <div id="modalReset" class="modal">
         <div class="modal-content">
             <h2>⚠️ Confirmar Reinicio</h2>
-            <p>¿Estás seguro de que deseas borrar toda la información?</p>
-            <div class="modal-buttons">
-                <button class="button secondary" onclick="cancelReset()">Cancelar</button>
-                <button class="button danger" onclick="resetAll()">Sí, Reiniciar</button>
-            </div>
+            <p>¿Deseas borrar toda la información?</p>
+            <button class="btn btn-secondary" onclick="app.cancelReset()" style="margin-top: 20px;">Cancelar</button>
+            <button class="btn btn-danger" onclick="app.resetAll()" style="margin-top: 10px;">Reiniciar</button>
         </div>
     </div>
 
     <script>
-        let state = {
-            name: '', area: '', currentEval: null, questionIndex: 0, tecnicaBlockIndex: 0, adminPhase: 'prevalidation', adminBlockIndex: 0, answers: {tecnica: {}, administrativa: {}, organizacional: {}}, results: {}, timerInterval: null, timerSeconds: 0
+        const app = {
+            state: {
+                interviewer: '', name: '', area: '', currentEval: null, questionIndex: 0, tecnicaBlockIndex: 0,
+                adminPhase: 'prevalidation', adminBlockIndex: 0, answers: { tecnica: {}, administrativa: {}, organizacional: {} },
+                results: {}, timerInterval: null, timerSeconds: 0
+            },
+
+            prevalidationQuestions: [
+                {q:"¿Dispuesto a firmar contrato?",o:["Sí","Probablemente sí","Quizás","Probablemente no","No"]},
+                {q:"¿Identificación oficial vigente?",o:["Sí, vigente","Vigente pronto","Próximo a vencer","Vencida","No"]},
+                {q:"¿Tienes RFC o puedes tramitarlo?",o:["Sí, tengo","Casi listo","Puedo gestionar","No, no puedo","No"]},
+                {q:"¿Tienes NSS o puedes obtenerlo?",o:["Sí, tengo","En trámite","Puedo gestionar","Difícil obtenerlo","No"]},
+                {q:"¿Tienes cuenta bancaria?",o:["Sí, tengo","Próximo a abrir","Puedo gestionar","No, no puedo","No"]},
+                {q:"¿En cuánto tiempo entregas documentación?",o:["1-4 días","5-10 días","1-2 semanas","Más de 2 semanas","No sabe"]},
+                {q:"Cuando te solicitan documentos, ¿cómo respondes?",o:["Entrego completo y a tiempo","Entrego rápido","Entregaría con tiempo","Necesito recordatorios","Me cuesta completar"]}
+            ],
+
+            orgQuestions: [
+                {q: "Tu jefe pide un análisis urgente. 5 horas para hacerlo perfecto o 1 hora para algo bien. ¿Qué haces?", opts: ["Entregas en 1h", "Entregas en 2h", "Entregas en 3h", "Reportas el dilema", "Tomas 5h"], vals: [1,2,3,5,2]},
+                {q: "Ves un problema importante pero reportarlo te podría complicar la relación con colegas. ¿Actúas?", opts: ["Enfoco mi trabajo", "Lo menciono casualmente", "Lo menciono con datos", "Lo reporto", "Hablo con colega"], vals: [1,2,3,5,4]},
+                {q: "Trabajaste duro pero falló. Jefe dice 'No pasa nada'. ¿Tu reflexión?", opts: ["Agradezco que no haya enojo", "El esfuerzo fue suficiente", "Analizo qué salió mal", "Me comprometo a mejorar", "Hay algo en el sistema que falló"], vals: [2,2,3,5,3]},
+                {q: "Compañero comete error que te afecta. No lo reportó. ¿Qué haces?", opts: ["Arreglo mi parte sin mencionar", "Hablo casualmente con él", "Lo enfrento privadamente", "Lo reporto al jefe", "Lo dejo pasar"], vals: [1,2,4,5,1]},
+                {q: "Hay política que creo ineficiente. Nadie la cuestiona. ¿Tu movimiento?", opts: ["La ignoro", "La cuestiono públicamente", "La cumplo sin quejarme", "La cumplo pero planteo formalmente", "Hablo primero con jefe"], vals: [1,2,2,5,4]},
+                {q: "Te asignan 150h de trabajo pero tienes 80h disponibles. ¿Qué haces?", opts: ["Digo que es imposible", "Lo intento solo", "Pido ayuda parcial", "Planteo scope real y pido mentoría", "Acepto y trabajo horas extra"], vals: [1,2,3,5,2]},
+                {q: "Compañero celebra logro que afectó negativo a otro equipo. ¿Tu reacción?", opts: ["Me sumo al aplauso", "Pregunto si consideró el impacto", "Lo hablo en privado después", "Lo felicito pero después hablo", "Lo cuestiono públicamente"], vals: [1,2,3,5,2]},
+                {q: "Tu jefe te da feedback crítico justo pero te afectó. ¿Tu actitud 24h después?", opts: ["Sigue afectándome", "Defenso mi posición", "Lo pienso pero no actúo", "Lo veo como dato para mejorar", "Guardo resentimiento"], vals: [1,1,2,5,1]},
+                {q: "Compañero es buena persona pero operativamente muy lento. ¿Qué haces?", opts: ["Lo tolero", "Lo confronto duramente", "Ofrezco ayuda", "Ofrezco apoyo y si no mejora reporto", "Hago su trabajo"], vals: [1,1,3,5,1]},
+                {q: "Regla clara va contra lo que cliente necesita. ¿Tu posición?", opts: ["Aplico la regla", "Pregunto al jefe", "Planteo el problema", "Planteo el trade-off al cliente", "Lo hago pero documento"], vals: [1,2,3,5,4]},
+                {q: "Tu perspectiva difiere del equipo. Jefe no ha decidido. ¿Actúas?", opts: ["Me alineo para no ser difícil", "Pregunto qué datos faltan", "Planteo mi visión con datos", "Defiendo fuertemente", "Espero a que falle"], vals: [1,2,5,2,1]},
+                {q: "Cliente pide algo posible pero contra estándares internos. ¿Decisión?", opts: ["Digo que no", "Pregunto al jefe primero", "Planteo el trade-off", "Planteo claro el trade-off al cliente", "Lo hago pero documento"], vals: [1,2,3,5,4]},
+                {q: "Prometiste entrega en 2 semanas. Día 10 es claro que no alcanzarás. ¿Cuándo reportas?", opts: ["Al último día", "Un día antes", "3 días antes", "Inmediatamente con opciones", "Intento acelerar sin avisar"], vals: [1,2,3,5,1]},
+                {q: "Tu propuesta fue rechazada. Crees que no te entendieron. ¿Reacción?", opts: ["Dejo de proponer", "La replanteo mejor", "Acepto y pregunto qué cambiar", "Acepto, pregunto y mejoro", "Te molesta pero no haces nada"], vals: [1,2,3,5,1]},
+                {q: "Hay tensión entre dos compañeros. Uno es tu amigo. ¿Tu rol?", opts: ["Me alineo con mi amigo", "No me involucro", "Hablo con ambos", "Trabajo neutral y refuerzo objetivos", "Hablo con ambos e intento mediar"], vals: [1,1,3,5,4]},
+                {q: "Compañero está abrumado. Jefe no se da cuenta. ¿Tu actitud?", opts: ["No es mi responsabilidad", "Ofrezco ayuda casual", "Le pregunto si necesita", "Reporto al jefe", "Ofrezco apoyo específico"], vals: [1,2,3,4,5]},
+                {q: "Cometiste error que solo tú sabes. Nadie se enteró. ¿Qué haces?", opts: ["Lo corrijo sin avisar", "Espero para ver si se nota", "Lo reporto como menor", "Lo reporto con contexto", "Lo dejo si es realmente menor"], vals: [1,1,2,5,1]},
+                {q: "El equipo evita tarea necesaria pero incómoda. ¿Tu reacción?", opts: ["También la evito", "La hago sin que me lo pidan", "La ofrezco casualmente", "La ofrezco pero pregunto por qué la evitan", "Planteo al jefe que se asigne"], vals: [1,2,3,5,3]},
+                {q: "Feedback válido te hace quedar mal con colega. ¿Cómo lo tomas?", opts: ["Lo cuestiono en privado", "Lo acepto sin defensa", "Acepto pero defenso un poco", "Acepto y trabajo sin dramatizar", "Espero mejorar para probar que no valía"], vals: [1,1,2,5,1]},
+                {q: "Jefe asigna proyecto con objetivo ambiguo. Tienes 2 opciones válidas. ¿Qué haces?", opts: ["Elijo la que me parece mejor", "Espero más claridad", "Pregunto cuál es el objetivo", "Propongo ambas opciones", "Pregunto y propongo caminos"], vals: [1,2,4,3,5]}
+            ],
+
+            tecnicaQuestions: {
+                entendimiento: {titulo: "Bloque 1 — Entendimiento del Rol (20 pts)", preguntas: ["¿Explica claramente su función principal?", "¿Define cómo se mide su trabajo?", "¿Identifica lo crítico de su rol?", "¿Describe su operación diaria?", "¿Explica conexión con otros roles?"]},
+                proceso: {titulo: "Bloque 2 — Proceso y Conocimiento (20 pts)", preguntas: ["¿Explica su proceso paso a paso?", "¿Identifica herramientas correctamente?", "¿Reconoce puntos de error?", "¿Explica consecuencias de errores?", "¿Mantiene documentación del proceso?"]},
+                resolucion: {titulo: "Bloque 3 — Resolución de Problemas (15 pts)", preguntas: ["¿Presenta un problema real?", "¿Describe acciones concretas?", "¿Explica cómo lo resolvió?", "¿Menciona lecciones aprendidas?"]},
+                resultados: {titulo: "Bloque 4 — Resultados y Medición (15 pts)", preguntas: ["¿Menciona métricas?", "¿Da datos concretos?", "¿Se compara contra estándar?", "¿Explica mejora tangible?"]},
+                calidad: {titulo: "Bloque 5 — Calidad y Ejecución (10 pts)", preguntas: ["¿Tiene método de calidad?", "¿Revisa antes de entregar?", "¿Describe control de calidad?"]},
+                autonomia: {titulo: "Bloque 6 — Autonomía y Aprendizaje (10 pts)", preguntas: ["¿Define qué hace sin supervisión?", "¿Explica cómo aprende?", "¿Busca capacitación activamente?"]},
+                equipo: {titulo: "Bloque 7 — Trabajo en Equipo (10 pts)", preguntas: ["¿Explica coordinación con otros?", "¿Cómo responde ante dirección?", "¿Apoya a compañeros?"]}
+            },
+
+            scaleLabels: {5: "Claro", 4: "Bueno", 3: "Entiende", 2: "Vago", 1: "Superficial"},
+
+            login() { const n = document.getElementById('nameValidation').value.trim(); if (!n) { alert('Ingresa tu nombre'); return; } this.state.interviewer = n; this.showScreen('menuScreen'); },
+            saveCandidate() { const n = document.getElementById('candidateName').value.trim(); const a = document.getElementById('candidateArea').value.trim(); if (!n || !a) { alert('Completa campos'); return; } this.state.name = n; this.state.area = a; localStorage.setItem('state', JSON.stringify(this.state)); this.showSavedSection(); },
+            showSavedSection() { document.getElementById('dispName').textContent = this.state.name; document.getElementById('dispArea').textContent = 'Área: ' + this.state.area; document.getElementById('formSection').style.display = 'none'; document.getElementById('savedSection').style.display = 'block'; this.updateMenuUI(); },
+            updateMenuUI() { const types = ['tecnica', 'administrativa', 'organizacional']; const ids = ['1', '2', '3']; types.forEach((t, i) => { const c = document.getElementById('card' + ids[i]); const s = document.getElementById('st' + ids[i]); if (this.state.results[t]) { s.textContent = 'Completada'; s.className = 'eval-status done'; c.classList.add('disabled'); } else { s.textContent = 'Pendiente'; s.className = 'eval-status pending'; c.classList.remove('disabled'); } }); },
+            selectEval(type) { if (this.state.results[type]) { alert('Ya completada'); return; } ['card1','card2','card3'].forEach(c => document.getElementById(c).classList.remove('selected')); const cardId = type === 'tecnica' ? 'card1' : (type === 'administrativa' ? 'card2' : 'card3'); document.getElementById(cardId).classList.add('selected'); this.state.currentEval = type; this.state.questionIndex = 0; this.state.tecnicaBlockIndex = 0; this.state.adminPhase = 'prevalidation'; this.state.adminBlockIndex = 0; },
+            startEval() { if (!this.state.currentEval) { alert('Selecciona evaluación'); return; } if (this.state.currentEval === 'organizacional') { this.state.timerSeconds = 900; document.getElementById('timerDiv').style.display = 'block'; this.startTimer(); } else { document.getElementById('timerDiv').style.display = 'none'; } this.renderQuestion(); this.showScreen('evalScreen'); },
+            startTimer() { clearInterval(this.state.timerInterval); this.state.timerInterval = setInterval(() => { this.state.timerSeconds--; const m = Math.floor(this.state.timerSeconds / 60); const s = this.state.timerSeconds % 60; document.getElementById('timer').textContent = `${m}:${s.toString().padStart(2, '0')}`; if (this.state.timerSeconds <= 300) document.getElementById('timer').style.color = '#f59e0b'; if (this.state.timerSeconds <= 60) document.getElementById('timer').style.color = '#EF4444'; if (this.state.timerSeconds <= 0) { clearInterval(this.state.timerInterval); this.finishEval(); } }, 1000); },
+            renderQuestion() { let q, total = 0, title = '', sv = '', nav = true; if (this.state.currentEval === 'tecnica') { const bk = ['entendimiento','proceso','resolucion','resultados','calidad','autonomia','equipo'][this.state.tecnicaBlockIndex]; const bd = this.tecnicaQuestions[bk]; q = bd.preguntas[this.state.questionIndex]; let cnt = 0; for (let i=0; i<this.state.tecnicaBlockIndex; i++) cnt += this.tecnicaQuestions[['entendimiento','proceso','resolucion','resultados','calidad','autonomia','equipo'][i]].preguntas.length; const curr = cnt + this.state.questionIndex + 1; let tot = 0; ['entendimiento','proceso','resolucion','resultados','calidad','autonomia','equipo'].forEach(k => tot += this.tecnicaQuestions[k].preguntas.length); total = tot; const curr_str = curr; title = bd.titulo; sv = this.state.answers.tecnica[`${bk}_${this.state.questionIndex}`] || ''; document.getElementById('progText').textContent = `Q${curr_str}/${total}`; document.getElementById('progFill').style.width = (curr_str/total*100) + '%'; let html = `<div class="question"><div class="question-text">${q}</div><div class="options">`; [5,4,3,2,1].forEach(s => { const sel = parseInt(sv) === s ? ' selected' : ''; html += `<div class="option${sel}" onclick="app.selectAnswer('${s}')"><input type="radio" name="q"><label style="margin: 0;"><strong>${s}</strong> - ${this.scaleLabels[s]}</label></div>`; }); html += '</div></div>'; document.getElementById('questionDiv').innerHTML = html; } else if (this.state.currentEval === 'administrativa') { if (this.state.adminPhase === 'prevalidation') { q = this.prevalidationQuestions[this.state.questionIndex]; title = 'Administrativa - Documentación'; sv = this.state.answers.administrativa[`pre_${this.state.questionIndex}`] || ''; const curr = this.state.questionIndex + 1; total = this.prevalidationQuestions.length; document.getElementById('progText').textContent = `Q${curr}/${total}`; document.getElementById('progFill').style.width = (curr/total*100) + '%'; let html = `<div class="question"><div class="question-text">${q.q}</div><div class="options">`; q.o.forEach((o,i) => { const l = String.fromCharCode(65+i); const sel = sv === l ? ' selected' : ''; html += `<div class="option${sel}" onclick="app.selectAnswer('${l}')"><input type="radio" name="q"><label style="margin: 0;">${l}) ${o}</label></div>`; }); html += '</div></div>'; document.getElementById('questionDiv').innerHTML = html; if (this.state.questionIndex === 0 && sv === 'E') { alert('Pre-validación rechazada: No está dispuesto a firmar contrato.'); this.backToMenu(); return; } } else { const blocks = ['historial','reputacion','integridad','referencias']; const block = blocks[this.state.adminBlockIndex]; const bd = {historial:'Historial Laboral',reputacion:'Reputación Operativa',integridad:'Integridad',referencias:'Referencias'}[block]; q = ['¿CV coincide con declarado?','¿Explica clara sus cambios?','¿Razones de salida son coherentes?','¿Hay progresión lógica?','¿Asume responsabilidad?'][this.state.questionIndex]; title = `Administrativa - ${bd}`; sv = this.state.answers.administrativa[`${block}_${this.state.questionIndex}`] || ''; const curr = this.state.adminBlockIndex * 5 + this.state.questionIndex + 1; total = 20; document.getElementById('progText').textContent = `Q${curr}/${total}`; document.getElementById('progFill').style.width = (curr/total*100) + '%'; let html = `<div class="question"><div class="question-text">${q}</div><div class="options">`; [5,4,3,2,1].forEach(s => { const sel = parseInt(sv) === s ? ' selected' : ''; const l = {5:'Cumple completamente',4:'Cumple bien',3:'Cumple parcial',2:'Cumple poco',1:'No cumple'}; html += `<div class="option${sel}" onclick="app.selectAnswer('${s}')"><input type="radio" name="q"><label style="margin: 0;"><strong>${s}</strong> - ${l[s]}</label></div>`; }); html += '</div></div>'; document.getElementById('questionDiv').innerHTML = html; } } else if (this.state.currentEval === 'organizacional') { q = this.orgQuestions[this.state.questionIndex]; const curr = this.state.questionIndex + 1; total = this.orgQuestions.length; title = 'Organizacional (15 min)'; sv = this.state.answers.organizacional[this.state.questionIndex] || ''; document.getElementById('progText').textContent = `Q${curr}/${total}`; document.getElementById('progFill').style.width = (curr/total*100) + '%'; let html = `<div class="question"><div class="question-text">${q.q}</div><div class="options">`; q.opts.forEach((o,i) => { const l = String.fromCharCode(65+i); const sel = sv === l ? ' selected' : ''; html += `<div class="option${sel}" onclick="app.selectAnswer('${l}')"><input type="radio" name="q"><label style="margin: 0;">${l}) ${o}</label></div>`; }); html += '</div></div>'; document.getElementById('questionDiv').innerHTML = html; nav = false; } document.getElementById('evalTitle').textContent = title; document.getElementById('navBtns').style.display = nav ? 'flex' : 'none'; },
+            selectAnswer(v) { if (this.state.currentEval === 'tecnica') { const bk = ['entendimiento','proceso','resolucion','resultados','calidad','autonomia','equipo'][this.state.tecnicaBlockIndex]; this.state.answers.tecnica[`${bk}_${this.state.questionIndex}`] = v; } else if (this.state.currentEval === 'administrativa') { if (this.state.adminPhase === 'prevalidation') { this.state.answers.administrativa[`pre_${this.state.questionIndex}`] = v; } else { const bs = ['historial','reputacion','integridad','referencias']; this.state.answers.administrativa[`${bs[this.state.adminBlockIndex]}_${this.state.questionIndex}`] = v; } } else { const li = v.charCodeAt(0) - 65; this.state.answers.organizacional[this.state.questionIndex] = this.orgQuestions[this.state.questionIndex].vals[li]; } localStorage.setItem('state', JSON.stringify(this.state)); this.renderQuestion(); setTimeout(() => this.autoAdvance(), 350); },
+            autoAdvance() { if (this.state.currentEval === 'tecnica') { const bk = ['entendimiento','proceso','resolucion','resultados','calidad','autonomia','equipo'][this.state.tecnicaBlockIndex]; const bd = this.tecnicaQuestions[bk]; if (this.state.questionIndex < bd.preguntas.length - 1) { this.state.questionIndex++; } else if (this.state.tecnicaBlockIndex < 6) { this.state.tecnicaBlockIndex++; this.state.questionIndex = 0; } else { this.finishEval(); return; } this.renderQuestion(); } else if (this.state.currentEval === 'administrativa') { if (this.state.adminPhase === 'prevalidation') { if (this.state.questionIndex < 6) this.state.questionIndex++; else { this.state.adminPhase = 'evaluation'; this.state.questionIndex = 0; this.state.adminBlockIndex = 0; } } else { if (this.state.questionIndex < 4) this.state.questionIndex++; else if (this.state.adminBlockIndex < 3) { this.state.adminBlockIndex++; this.state.questionIndex = 0; } else { this.finishEval(); return; } } this.renderQuestion(); } else { if (this.state.questionIndex < 19) { this.state.questionIndex++; this.renderQuestion(); } else this.finishEval(); } },
+            goBack() { if (this.state.currentEval === 'tecnica') { if (this.state.questionIndex > 0) this.state.questionIndex--; else if (this.state.tecnicaBlockIndex > 0) { this.state.tecnicaBlockIndex--; this.state.questionIndex = this.tecnicaQuestions[['entendimiento','proceso','resolucion','resultados','calidad','autonomia','equipo'][this.state.tecnicaBlockIndex]].preguntas.length - 1; } } else if (this.state.currentEval === 'administrativa') { if (this.state.adminPhase === 'prevalidation') { if (this.state.questionIndex > 0) this.state.questionIndex--; } else { if (this.state.questionIndex > 0) this.state.questionIndex--; else if (this.state.adminBlockIndex > 0) { this.state.adminBlockIndex--; this.state.questionIndex = 4; } } } this.renderQuestion(); },
+            goNext() { if (this.state.currentEval === 'tecnica') { const bk = ['entendimiento','proceso','resolucion','resultados','calidad','autonomia','equipo'][this.state.tecnicaBlockIndex]; const bd = this.tecnicaQuestions[bk]; if (this.state.questionIndex < bd.preguntas.length - 1) this.state.questionIndex++; else if (this.state.tecnicaBlockIndex < 6) { this.state.tecnicaBlockIndex++; this.state.questionIndex = 0; } else { this.finishEval(); return; } } else if (this.state.currentEval === 'administrativa') { if (this.state.adminPhase === 'prevalidation') { if (this.state.questionIndex < 6) this.state.questionIndex++; else { this.state.adminPhase = 'evaluation'; this.state.questionIndex = 0; this.state.adminBlockIndex = 0; } } else { if (this.state.questionIndex < 4) this.state.questionIndex++; else if (this.state.adminBlockIndex < 3) { this.state.adminBlockIndex++; this.state.questionIndex = 0; } else { this.finishEval(); return; } } } this.renderQuestion(); },
+            finishEval() { clearInterval(this.state.timerInterval); if (this.state.currentEval === 'tecnica') { let ts = 0; ['entendimiento','proceso','resolucion','resultados','calidad','autonomia','equipo'].forEach((bk,i) => { const bd = this.tecnicaQuestions[bk]; const pts = [20,20,15,15,10,10,10]; const nq = bd.preguntas.length; let bs = 0; for (let j = 0; j < nq; j++) bs += parseInt(this.state.answers.tecnica[`${bk}_${j}`]) || 0; ts += (bs / (nq * 5)) * pts[i]; }); this.state.results.tecnica = {total: Math.round(ts), pct: ts}; } else if (this.state.currentEval === 'administrativa') { let ts = 0; ['historial','reputacion','integridad','referencias'].forEach(b => { for (let i = 0; i < 5; i++) ts += parseInt(this.state.answers.administrativa[`${b}_${i}`]) || 0; }); this.state.results.administrativa = {total: ts, pct: ts}; } else { let ts = 0; this.orgQuestions.forEach((q,i) => ts += parseInt(this.state.answers.organizacional[i]) || 0); this.state.results.organizacional = {total: ts, pct: ts}; } localStorage.setItem('state', JSON.stringify(this.state)); this.updateMenuUI(); this.showScreen('thankYouScreen'); },
+            showResults() { if (!this.state.name) { alert('Sin datos'); return; } let html = `<div style="background: #0051D8; color: white; padding: 25px; border-radius: 12px; text-align: center; margin: 20px 0;"><h3 style="color: white;">${this.state.name}</h3><p style="color: white;">Área: ${this.state.area}</p></div>`; const tp = this.state.results.tecnica?.pct || 0, ap = this.state.results.administrativa?.pct || 0, op = this.state.results.organizacional?.pct || 0; const fs = (tp * 0.33) + (ap * 0.33) + (op * 0.34); const pc = fs >= 80 ? 'excellent' : (fs >= 70 ? 'good' : (fs >= 50 ? 'acceptable' : 'rejected')); const pn = fs >= 80 ? '⭐ ESTRELLA' : (fs >= 70 ? '🔑 CLAVE' : (fs >= 50 ? '📈 EMERGENTE' : '⚠️ REVISIÓN')); html += `<div class="result-header ${pc}"><div class="result-score">${fs.toFixed(1)}%</div><div class="result-label">${pn}</div></div>`; html += '<table><tr><th>Evaluación</th><th>Puntaje</th><th>%</th></tr>'; if (this.state.results.tecnica) html += `<tr><td>Técnica</td><td>${this.state.results.tecnica.total}</td><td>${tp.toFixed(1)}%</td></tr>`; if (this.state.results.administrativa) html += `<tr><td>Administrativa</td><td>${this.state.results.administrativa.total}</td><td>${ap.toFixed(1)}%</td></tr>`; if (this.state.results.organizacional) html += `<tr><td>Organizacional</td><td>${this.state.results.organizacional.total}</td><td>${op.toFixed(1)}%</td></tr>`; html += '</table>'; if (this.state.answers.administrativa && Object.keys(this.state.answers.administrativa).some(k => k.startsWith('pre_'))) { html += '<div class="prevalidation-section"><h3>📋 Prevalidación Administrativa</h3>'; this.prevalidationQuestions.forEach((q,i) => { const ans = this.state.answers.administrativa[`pre_${i}`]; if (ans) { const idx = ans.charCodeAt(0) - 65; const val = q.o[idx]; html += `<div class="prevalidation-item"><span class="label">${q.q}</span><span class="value">${val}</span></div>`; } }); html += '</div>'; } html += `<div class="info-box"><strong>Cálculo Final:</strong> (Técnica${tp.toFixed(1)}% × 0.33) + (Administrativa${ap.toFixed(1)}% × 0.33) + (Organizacional${op.toFixed(1)}% × 0.34) = <strong>${fs.toFixed(1)}%</strong><br><br><strong>Clasificación:</strong><br>⭐ ESTRELLA (A) ≥80%: Excepcional. Contratación inmediata.<br>🔑 CLAVE (B) 70-79%: Muy bueno. Contratación recomendada.<br>📈 EMERGENTE (C) 50-69%: Aceptable. Requiere análisis profundo.<br>⚠️ REVISIÓN <50%: No cumple. No recomendado.</div>`; html += '<div style="background: #E8F1FF; padding: 20px; border-radius: 12px; margin: 20px 0;"><h3>Recomendación</h3>'; if (fs >= 80) html += `${this.state.name} es excepcional. CONTRATACIÓN INMEDIATA.`; else if (fs >= 70) html += `${this.state.name} es muy bueno. CONTRATACIÓN RECOMENDADA.`; else if (fs >= 50) html += `${this.state.name} es aceptable. REQUIERE ANÁLISIS PROFUNDO. Considerar período de prueba.`; else html += `${this.state.name} no cumple perfil. NO RECOMENDADO.`; html += '</div>'; document.getElementById('resultsDiv').innerHTML = html; this.showScreen('resultsScreen'); },
+            copyResults() { let t = `IDENTILABEL - RESULTADOS\nCandidato: ${this.state.name}\nÁrea: ${this.state.area}\n\nTécnica: ${(this.state.results.tecnica?.pct || 0).toFixed(1)}%\nAdministrativa: ${(this.state.results.administrativa?.pct || 0).toFixed(1)}%\nOrganizacional: ${(this.state.results.organizacional?.pct || 0).toFixed(1)}%\n\nFinal: ${((this.state.results.tecnica?.pct || 0) * 0.33 + (this.state.results.administrativa?.pct || 0) * 0.33 + (this.state.results.organizacional?.pct || 0) * 0.34).toFixed(1)}%`; navigator.clipboard.writeText(t); alert('✓ Copiado'); },
+            confirmReset() { document.getElementById('modalReset').classList.add('active'); },
+            cancelReset() { document.getElementById('modalReset').classList.remove('active'); },
+            resetAll() { this.state = {interviewer: this.state.interviewer, name: '', area: '', currentEval: null, questionIndex: 0, tecnicaBlockIndex: 0, adminPhase: 'prevalidation', adminBlockIndex: 0, answers: {tecnica: {}, administrativa: {}, organizacional: {}}, results: {}, timerInterval: null, timerSeconds: 0}; localStorage.removeItem('state'); document.getElementById('modalReset').classList.remove('active'); this.showScreen('menuScreen'); document.getElementById('formSection').style.display = 'block'; document.getElementById('savedSection').style.display = 'none'; },
+            showScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); },
+            backToMenu() { this.showScreen('menuScreen'); this.showSavedSection(); }
         };
 
-        const orgQuestions = [
-            {q: "Tu jefe pide un análisis urgente. 5h perfecto O 1h bien. ¿Qué haces?", opts: ["Entregas en 1h", "Entregas en 2h", "Entregas en 3h", "Reportas el dilema", "Tomas 5h"], vals: [1, 2, 3, 5, 2]},
-            {q: "Ves un problema importante pero reportarlo te podría complicar la relación con colegas. ¿Actúas?", opts: ["Enfoco mi trabajo", "Lo menciono muy casualmente", "Lo menciono con datos", "Lo reporto porque es lo correcto", "Hablo con colega para que lo reporte"], vals: [1, 2, 3, 5, 4]},
-            {q: "Trabajaste duro pero falló. Jefe dice 'No pasa nada'. ¿Tu reflexión?", opts: ["Agradezco que no haya enojo", "El esfuerzo fue suficiente", "Analizo qué salió mal", "Me comprometo a mejorar", "Hay algo en el sistema que falló"], vals: [2, 2, 3, 5, 3]},
-            {q: "Compañero comete error que te afecta. No lo reportó. ¿Qué haces?", opts: ["Arreglo mi parte sin mencionar", "Hablo casualmente con él", "Lo enfrento privadamente", "Lo reporto al jefe", "Lo dejo pasar"], vals: [1, 2, 4, 5, 1]},
-            {q: "Hay política que creo ineficiente. Nadie la cuestiona. ¿Tu movimiento?", opts: ["La ignoro", "La cuestiono públicamente", "La cumplo sin quejarme", "La cumplo pero planteo formalmente", "Hablo primero con jefe"], vals: [1, 2, 2, 5, 4]},
-            {q: "Te asignan 150h pero tienes 80h. ¿Qué haces?", opts: ["Digo que es imposible", "Lo intento solo", "Pido ayuda parcial", "Planteo scope real y pido mentoría", "Acepto y trabajo horas extra"], vals: [1, 2, 3, 5, 2]},
-            {q: "Compañero celebra logro que afectó negativo a otro equipo. ¿Tu reacción?", opts: ["Me sumo al aplauso", "Pregunto si consideró el impacto", "Lo hablo en privado después", "Lo felicito pero después hablo", "Lo cuestiono públicamente"], vals: [1, 2, 3, 5, 2]},
-            {q: "Tu jefe te da feedback crítico justo pero te afectó. ¿Tu actitud 24h después?", opts: ["Sigue afectándome", "Defenso mi posición", "Lo pienso pero no actúo", "Lo veo como dato para mejorar", "Guardo resentimiento"], vals: [1, 1, 2, 5, 1]},
-            {q: "Compañero es buena persona pero operativamente muy lento. ¿Qué haces?", opts: ["Lo tolero", "Lo confronto duramente", "Ofrezco ayuda", "Ofrezco apoyo y si no mejora reporto", "Hago su trabajo"], vals: [1, 1, 3, 5, 1]},
-            {q: "Regla clara va contra lo que cliente necesita. ¿Tu posición?", opts: ["Aplico la regla", "Pregunto al jefe", "Planteo el problema", "Planteo el trade-off al cliente", "Lo hago pero documento"], vals: [1, 2, 3, 5, 4]},
-            {q: "Tu perspectiva difiere del equipo. Jefe no ha decidido. ¿Actúas?", opts: ["Me alineo para no ser difícil", "Pregunto qué datos faltan", "Planteo mi visión con datos", "Defiendo fuertemente", "Espero a que falle"], vals: [1, 2, 5, 2, 1]},
-            {q: "Cliente pide algo posible pero contra estándares internos. ¿Decisión?", opts: ["Digo que no", "Pregunto al jefe primero", "Planteo el trade-off", "Planteo claro el trade-off al cliente", "Lo hago pero documento"], vals: [1, 2, 3, 5, 4]},
-            {q: "Prometiste entrega en 2 semanas. Día 10 es claro que no alcanzarás. ¿Cuándo reportas?", opts: ["Al último día", "Un día antes", "3 días antes", "Inmediatamente con opciones", "Intento acelerar sin avisar"], vals: [1, 2, 3, 5, 1]},
-            {q: "Tu propuesta fue rechazada. Crees que no te entendieron. ¿Reacción?", opts: ["Dejo de proponer", "La replanteo mejor", "Acepto y pregunto qué cambiar", "Acepto, pregunto y mejoro", "Te molesta pero no haces nada"], vals: [1, 2, 3, 5, 1]},
-            {q: "Hay tensión entre dos compañeros. Uno es tu amigo. ¿Tu rol?", opts: ["Me alineo con mi amigo", "No me involucro", "Hablo con ambos", "Trabajo neutral y refuerzo objetivos", "Hablo con ambos e intento mediar"], vals: [1, 1, 3, 5, 4]},
-            {q: "Compañero está abrumado. Jefe no se da cuenta. ¿Tu actitud?", opts: ["No es mi responsabilidad", "Ofrezco ayuda casual", "Le pregunto si necesita", "Reporto al jefe", "Ofrezco apoyo específico"], vals: [1, 2, 3, 4, 5]},
-            {q: "Cometiste error que solo tú sabes. Nadie se enteró. ¿Qué haces?", opts: ["Lo corrijo sin avisar", "Espero para ver si se nota", "Lo reporto como menor", "Lo reporto con contexto", "Lo dejo si es realmente menor"], vals: [1, 1, 2, 5, 1]},
-            {q: "El equipo evita tarea necesaria pero incómoda. ¿Tu reacción?", opts: ["También la evito", "La hago sin que me lo pidan", "La ofrezco casualmente", "La ofrezco pero pregunto por qué la evitan", "Planteo al jefe que se asigne"], vals: [1, 2, 3, 5, 3]},
-            {q: "Feedback válido te hace quedar mal con colega. ¿Cómo lo tomas?", opts: ["Lo cuestiono en privado", "Lo acepto sin defensa", "Acepto pero defenso un poco", "Acepto y trabajo sin dramatizar", "Espero mejorar para probar que no valía"], vals: [1, 1, 2, 5, 1]},
-            {q: "Jefe asigna proyecto con objetivo ambiguo. Tienes 2 opciones válidas. ¿Qué haces?", opts: ["Elijo la que me parece mejor", "Espero más claridad", "Pregunto cuál es el objetivo", "Propongo ambas opciones", "Pregunto y propongo caminos"], vals: [1, 2, 4, 3, 5]}
-        ];
-
-        const tecnicaQuestions = {
-            entendimiento: {titulo: "Bloque 1 — Entendimiento del Rol (20 pts)", preguntas: ["¿Explica claramente su función principal?", "¿Define cómo se mide su trabajo?", "¿Identifica lo crítico de su rol?", "¿Describe su operación diaria?", "¿Explica conexión con otros roles?"]},
-            proceso: {titulo: "Bloque 2 — Proceso y Conocimiento (20 pts)", preguntas: ["¿Explica su proceso paso a paso?", "¿Identifica herramientas correctamente?", "¿Reconoce puntos de error?", "¿Explica consecuencias de errores?", "¿Mantiene documentación del proceso?"]},
-            resolucion: {titulo: "Bloque 3 — Resolución de Problemas (15 pts)", preguntas: ["¿Presenta un problema real?", "¿Describe acciones concretas?", "¿Explica cómo lo resolvió?", "¿Menciona lecciones aprendidas?"]},
-            resultados: {titulo: "Bloque 4 — Resultados y Medición (15 pts)", preguntas: ["¿Menciona métricas?", "¿Da datos concretos?", "¿Se compara contra estándar?", "¿Explica mejora tangible?"]},
-            calidad: {titulo: "Bloque 5 — Calidad y Ejecución (10 pts)", preguntas: ["¿Tiene método de calidad?", "¿Revisa antes de entregar?", "¿Describe control de calidad?"]},
-            autonomia: {titulo: "Bloque 6 — Autonomía y Aprendizaje (10 pts)", preguntas: ["¿Define qué hace sin supervisión?", "¿Explica cómo aprende?", "¿Busca capacitación activamente?"]},
-            equipo: {titulo: "Bloque 7 — Trabajo en Equipo (10 pts)", preguntas: ["¿Explica coordinación con otros?", "¿Cómo responde ante dirección?", "¿Apoya a compañeros?"]}
-        };
-
-        const tecnicaBlockOrder = ['entendimiento', 'proceso', 'resolucion', 'resultados', 'calidad', 'autonomia', 'equipo'];
-        const tecnicaScale = {5: "Claro, con ejemplo", 4: "Buena explicación", 3: "Entiende, con vacíos", 2: "Vago", 1: "Superficial"};
-        const tecnicaBlockPts = {entendimiento: 20, proceso: 20, resolucion: 15, resultados: 15, calidad: 10, autonomia: 10, equipo: 10};
-
-        const adminPrevalidation = [
-            {q: "¿Dispuesto a firmar contrato?", opts: ["No", "Probablemente no", "Quizás", "Probablemente sí", "Sí"]},
-            {q: "¿Identificación oficial vigente?", opts: ["No", "Vencida", "Próximo a vencer", "Vigente pronto", "Sí, vigente"]},
-            {q: "¿Tienes RFC o puedes tramitarlo?", opts: ["No", "No, no puedo", "Puedo gestionar", "Casi listo", "Sí, tengo"]},
-            {q: "¿Tienes NSS o puedes obtenerlo?", opts: ["No", "Difícil obtenerlo", "Puedo gestionar", "En trámite", "Sí, tengo"]},
-            {q: "¿Tienes cuenta bancaria?", opts: ["No", "No, no puedo", "Puedo gestionar", "Próximo a abrir", "Sí, tengo"]},
-            {q: "¿En cuánto tiempo entregas documentación?", opts: ["No sabe", "Más de 2 semanas", "1-2 semanas", "5-10 días", "1-4 días"]},
-            {q: "Cuando te solicitan documentos, ¿cómo respondes?", opts: ["Me cuesta completar", "Necesito recordatorios", "Entregaría con tiempo", "Entrego rápido", "Entrego completo y a tiempo"]}
-        ];
-
-        const adminBlocks = {
-            historial: {titulo: "Historial Laboral (25 pts)", preguntas: ["¿CV coincide con declarado?", "¿Explica clara sus cambios?", "¿Razones de salida son coherentes?", "¿Hay progresión lógica?", "¿Asume responsabilidad?"]},
-            reputacion: {titulo: "Reputación Operativa (25 pts)", preguntas: ["¿Asume responsabilidad en errores?", "¿Respeta procesos?", "¿Escala adecuadamente?", "¿Se coordina con otras áreas?", "¿Propone soluciones?"]},
-            integridad: {titulo: "Integridad (25 pts)", preguntas: ["¿Información completa?", "¿Responde claro?", "¿Consistencia en información?", "¿Transparente en temas sensibles?", "¿Coherencia en todo?"]},
-            referencias: {titulo: "Referencias (25 pts)", preguntas: ["¿Referencia confirmada?", "¿Es confiable?", "¿Respeta procesos?", "¿Maneja errores?", "¿Lo recontratría?"]}
-        };
-
-        function saveCandidate() {
-            const name = document.getElementById('candidateName').value.trim();
-            const area = document.getElementById('candidateArea').value.trim();
-            if (!name || !area) { alert('Completa ambos campos'); return; }
-            state.name = name;
-            state.area = area;
-            localStorage.setItem('app_state', JSON.stringify(state));
-            showSavedSection();
-        }
-
-        function editCandidate() {
-            document.getElementById('formSection').style.display = 'block';
-            document.getElementById('savedSection').style.display = 'none';
-            document.getElementById('candidateName').value = state.name;
-            document.getElementById('candidateArea').value = state.area;
-        }
-
-        function showSavedSection() {
-            document.getElementById('displayName').textContent = state.name;
-            document.getElementById('displayArea').textContent = state.area;
-            document.getElementById('formSection').style.display = 'none';
-            document.getElementById('savedSection').style.display = 'block';
-            updateMenuUI();
-        }
-
-        function updateMenuUI() {
-            updateEvalStatus('tecnica', 'cardTecnica', 'statusTecnica');
-            updateEvalStatus('administrativa', 'cardAdmin', 'statusAdmin');
-            updateEvalStatus('organizacional', 'cardOrg', 'statusOrg');
-        }
-
-        function updateEvalStatus(type, cardId, statusId) {
-            const card = document.getElementById(cardId);
-            const status = document.getElementById(statusId);
-            if (state.results[type]) {
-                status.textContent = 'Completada';
-                status.className = 'eval-status done';
-                card.classList.add('disabled');
-            } else {
-                status.textContent = 'Pendiente';
-                status.className = 'eval-status pending';
-                card.classList.remove('disabled');
-            }
-        }
-
-        function selectEval(type) {
-            if (state.results[type]) { alert('Esta evaluación ya está completada'); return; }
-            document.getElementById('cardTecnica').classList.remove('selected');
-            document.getElementById('cardAdmin').classList.remove('selected');
-            document.getElementById('cardOrg').classList.remove('selected');
-            const cardId = type === 'tecnica' ? 'cardTecnica' : (type === 'administrativa' ? 'cardAdmin' : 'cardOrg');
-            document.getElementById(cardId).classList.add('selected');
-            state.currentEval = type;
-            state.questionIndex = 0;
-            state.tecnicaBlockIndex = 0;
-            state.adminPhase = 'prevalidation';
-            state.adminBlockIndex = 0;
-        }
-
-        function startEvaluation() {
-            if (!state.currentEval) { alert('Selecciona una evaluación'); return; }
-            if (state.currentEval === 'organizacional') {
-                state.timerSeconds = 900;
-                document.getElementById('timerDiv').style.display = 'block';
-                startTimer();
-            } else {
-                document.getElementById('timerDiv').style.display = 'none';
-            }
-            renderQuestion();
-            showScreen('evalScreen');
-        }
-
-        function startTimer() {
-            clearInterval(state.timerInterval);
-            state.timerInterval = setInterval(() => {
-                state.timerSeconds--;
-                const minutes = Math.floor(state.timerSeconds / 60);
-                const seconds = state.timerSeconds % 60;
-                const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                const timerEl = document.getElementById('timerDisplay');
-                timerEl.textContent = timeString;
-                if (state.timerSeconds <= 300) timerEl.className = 'timer warning';
-                if (state.timerSeconds <= 60) timerEl.className = 'timer danger';
-                if (state.timerSeconds <= 0) {
-                    clearInterval(state.timerInterval);
-                    finishEval();
-                }
-            }, 1000);
-        }
-
-        function renderQuestion() {
-            let html = '', current = 0, total = 0, title = '', selectedValue = '', showNav = true;
-            if (state.currentEval === 'tecnica') {
-                const blockKey = tecnicaBlockOrder[state.tecnicaBlockIndex];
-                const blockData = tecnicaQuestions[blockKey];
-                const q = blockData.preguntas[state.questionIndex];
-                current = getTecnicaQuestionNumber();
-                total = getTecnicaTotalQuestions();
-                title = blockData.titulo;
-                selectedValue = state.answers.tecnica[`${blockKey}_${state.questionIndex}`] || '';
-                html = `<div class="question-section"><div class="question-number">Pregunta ${current}/${total}</div><div class="question-text">${q}</div><div class="options">`;
-                [5,4,3,2,1].forEach(score => {const selected = parseInt(selectedValue) === score ? ' selected' : ''; html += `<div class="option${selected}" onclick="selectAnswer('${score}')"><input type="radio"><label><strong>${score}</strong> - ${tecnicaScale[score]}</label></div>`;});
-                html += '</div></div>';
-            } else if (state.currentEval === 'administrativa') {
-                if (state.adminPhase === 'prevalidation') {
-                    const q = adminPrevalidation[state.questionIndex];
-                    current = state.questionIndex + 1;
-                    total = adminPrevalidation.length;
-                    title = 'Evaluación Administrativa - Documentación';
-                    selectedValue = state.answers.administrativa[`pre_${state.questionIndex}`] || '';
-                    html = `<div class="question-section"><div class="question-number">Pregunta ${current}/${total}</div><div class="question-text">${q.q}</div><div class="options">`;
-                    q.opts.forEach((opt, i) => {const letter = String.fromCharCode(65 + i); const selected = selectedValue === letter ? ' selected' : ''; html += `<div class="option${selected}" onclick="selectAnswer('${letter}')"><input type="radio"><label>${letter}) ${opt}</label></div>`;});
-                    html += '</div></div>';
-                } else {
-                    const blocks = ['historial', 'reputacion', 'integridad', 'referencias'];
-                    const block = blocks[state.adminBlockIndex];
-                    const blockData = adminBlocks[block];
-                    const q = blockData.preguntas[state.questionIndex];
-                    current = (state.adminBlockIndex * 5) + state.questionIndex + 1;
-                    total = 20;
-                    title = `Evaluación Administrativa - ${blockData.titulo}`;
-                    selectedValue = state.answers.administrativa[`${block}_${state.questionIndex}`] || '';
-                    html = `<div class="question-section"><div class="question-number">Pregunta ${current}/${total}</div><div class="question-text">${q}</div><div class="options">`;
-                    [5,4,3,2,1].forEach(score => {const selected = parseInt(selectedValue) === score ? ' selected' : ''; const labels = {5: 'Cumple completamente', 4: 'Cumple bien', 3: 'Cumple parcial', 2: 'Cumple poco', 1: 'No cumple'}; html += `<div class="option${selected}" onclick="selectAnswer('${score}')"><input type="radio"><label><strong>${score}</strong> - ${labels[score]}</label></div>`;});
-                    html += '</div></div>';
-                }
-            } else if (state.currentEval === 'organizacional') {
-                const q = orgQuestions[state.questionIndex];
-                current = state.questionIndex + 1;
-                total = orgQuestions.length;
-                title = 'Evaluación Organizacional (15 min)';
-                selectedValue = state.answers.organizacional[state.questionIndex] || '';
-                html = `<div class="question-section"><div class="question-number">Pregunta ${current}/${total}</div><div class="question-text">${q.q}</div><div class="options">`;
-                q.opts.forEach((opt, i) => {const letter = String.fromCharCode(65 + i); const selected = selectedValue === letter ? ' selected' : ''; html += `<div class="option${selected}" onclick="selectAnswer('${letter}')"><input type="radio"><label>${letter}) ${opt}</label></div>`;});
-                html += '</div></div>';
-                showNav = false;
-            }
-            document.getElementById('evalTitle').textContent = title;
-            document.getElementById('progressText').textContent = `Pregunta ${current}/${total}`;
-            document.getElementById('progressFill').style.width = ((current / total) * 100) + '%';
-            document.getElementById('questionDiv').innerHTML = html;
-            document.getElementById('navButtons').style.display = showNav ? 'flex' : 'none';
-        }
-
-        function getTecnicaQuestionNumber() { let count = 0; for (let i = 0; i < state.tecnicaBlockIndex; i++) { const blockKey = tecnicaBlockOrder[i]; count += tecnicaQuestions[blockKey].preguntas.length; } return count + state.questionIndex + 1; }
-        function getTecnicaTotalQuestions() { let total = 0; tecnicaBlockOrder.forEach(blockKey => { total += tecnicaQuestions[blockKey].preguntas.length; }); return total; }
-        function selectAnswer(val) { if (state.currentEval === 'tecnica') { const blockKey = tecnicaBlockOrder[state.tecnicaBlockIndex]; state.answers.tecnica[`${blockKey}_${state.questionIndex}`] = val; } else if (state.currentEval === 'administrativa') { if (state.adminPhase === 'prevalidation') { state.answers.administrativa[`pre_${state.questionIndex}`] = val; if (state.questionIndex === 0 && val === 'A') { alert('❌ Pre-validación rechazada: No está dispuesto a firmar contrato.'); backToMenu(); return; } } else { const blocks = ['historial', 'reputacion', 'integridad', 'referencias']; const block = blocks[state.adminBlockIndex]; state.answers.administrativa[`${block}_${state.questionIndex}`] = val; } } else if (state.currentEval === 'organizacional') { const letter = val; const letterIndex = letter.charCodeAt(0) - 65; const pointValue = orgQuestions[state.questionIndex].vals[letterIndex]; state.answers.organizacional[state.questionIndex] = pointValue; } localStorage.setItem('app_state', JSON.stringify(state)); renderQuestion(); setTimeout(autoAdvance, 350); }
-        function autoAdvance() { if (state.currentEval === 'tecnica') { const blockKey = tecnicaBlockOrder[state.tecnicaBlockIndex]; const blockData = tecnicaQuestions[blockKey]; if (state.questionIndex < blockData.preguntas.length - 1) { state.questionIndex++; } else if (state.tecnicaBlockIndex < tecnicaBlockOrder.length - 1) { state.tecnicaBlockIndex++; state.questionIndex = 0; } else { finishEval(); return; } renderQuestion(); } else if (state.currentEval === 'administrativa') { if (state.adminPhase === 'prevalidation') { if (state.questionIndex < adminPrevalidation.length - 1) { state.questionIndex++; } else { state.adminPhase = 'evaluation'; state.questionIndex = 0; state.adminBlockIndex = 0; } } else { if (state.questionIndex < 4) { state.questionIndex++; } else if (state.adminBlockIndex < 3) { state.adminBlockIndex++; state.questionIndex = 0; } else { finishEval(); return; } } renderQuestion(); } else if (state.currentEval === 'organizacional') { if (state.questionIndex < orgQuestions.length - 1) { state.questionIndex++; renderQuestion(); } else { finishEval(); } } }
-        function goBack() { if (state.currentEval === 'tecnica') { if (state.questionIndex > 0) { state.questionIndex--; } else if (state.tecnicaBlockIndex > 0) { state.tecnicaBlockIndex--; const blockKey = tecnicaBlockOrder[state.tecnicaBlockIndex]; const blockData = tecnicaQuestions[blockKey]; state.questionIndex = blockData.preguntas.length - 1; } } else if (state.currentEval === 'administrativa') { if (state.adminPhase === 'prevalidation') { if (state.questionIndex > 0) state.questionIndex--; } else { if (state.questionIndex > 0) state.questionIndex--; else if (state.adminBlockIndex > 0) { state.adminBlockIndex--; state.questionIndex = 4; } } } renderQuestion(); }
-        function goNext() { if (state.currentEval === 'tecnica') { const blockKey = tecnicaBlockOrder[state.tecnicaBlockIndex]; const blockData = tecnicaQuestions[blockKey]; if (state.questionIndex < blockData.preguntas.length - 1) { state.questionIndex++; } else if (state.tecnicaBlockIndex < tecnicaBlockOrder.length - 1) { state.tecnicaBlockIndex++; state.questionIndex = 0; } else { finishEval(); return; } } else if (state.currentEval === 'administrativa') { if (state.adminPhase === 'prevalidation') { if (state.questionIndex < adminPrevalidation.length - 1) { state.questionIndex++; } else { state.adminPhase = 'evaluation'; state.questionIndex = 0; state.adminBlockIndex = 0; } } else { if (state.questionIndex < 4) { state.questionIndex++; } else if (state.adminBlockIndex < 3) { state.adminBlockIndex++; state.questionIndex = 0; } else { finishEval(); return; } } } renderQuestion(); }
-        
-        function finishEval() {
-            clearInterval(state.timerInterval);
-            if (state.currentEval === 'tecnica') {
-                let totalScore = 0;
-                tecnicaBlockOrder.forEach(blockKey => {
-                    const blockData = tecnicaQuestions[blockKey];
-                    const blockMaxPts = tecnicaBlockPts[blockKey];
-                    const numQuestions = blockData.preguntas.length;
-                    const maxRawScore = numQuestions * 5;
-                    let blockSum = 0;
-                    for (let i = 0; i < numQuestions; i++) {
-                        const answer = parseInt(state.answers.tecnica[`${blockKey}_${i}`]) || 0;
-                        blockSum += answer;
-                    }
-                    const blockScore = (blockSum / maxRawScore) * blockMaxPts;
-                    totalScore += blockScore;
-                });
-                state.results.tecnica = {total: Math.round(totalScore), max: 100, pct: totalScore};
-            } else if (state.currentEval === 'administrativa') {
-                let totalScore = 0;
-                ['historial', 'reputacion', 'integridad', 'referencias'].forEach(block => {
-                    for (let i = 0; i < 5; i++) {
-                        const answer = parseInt(state.answers.administrativa[`${block}_${i}`]) || 0;
-                        totalScore += answer;
-                    }
-                });
-                state.results.administrativa = {total: totalScore, max: 100, pct: totalScore};
-            } else if (state.currentEval === 'organizacional') {
-                let totalScore = 0;
-                orgQuestions.forEach((q, i) => {
-                    const pointValue = parseInt(state.answers.organizacional[i]) || 0;
-                    totalScore += pointValue;
-                });
-                state.results.organizacional = {total: Math.round(totalScore), max: 100, pct: Math.round(totalScore)};
-            }
-            localStorage.setItem('app_state', JSON.stringify(state));
-            updateMenuUI();
-            showScreen('thankYouScreen');
-        }
-
-        function getPlayerType(pct) {
-            if (pct >= 80) return {label: '⭐ JUGADOR ESTRELLA (A)', desc: 'APTO PARA CONTRATACIÓN INMEDIATA', class: 'excellent'};
-            if (pct >= 70) return {label: '🔑 JUGADOR CLAVE (B)', desc: 'APTO PARA PERÍODO DE PRUEBA', class: 'good'};
-            if (pct >= 50) return {label: '📈 JUGADOR EMERGENTE (C)', desc: 'REQUIERE ANÁLISIS PROFUNDO', class: 'acceptable'};
-            return {label: '⚠️ REQUIERE REVISIÓN', desc: 'NO RECOMENDADO', class: 'rejected'};
-        }
-
-        function showResults() {
-            if (!state.name) { alert('Ingresa datos del candidato primero'); return; }
-            
-            let html = `<div class="candidate-display">
-                <h3>${state.name}</h3>
-                <p><strong>Área:</strong> ${state.area}</p>
-            </div>`;
-
-            let techPct = 0, adminPct = 0, orgPct = 0, count = 0;
-            
-            if (state.results.tecnica) {
-                techPct = state.results.tecnica.pct;
-                count++;
-            }
-            if (state.results.administrativa) {
-                adminPct = state.results.administrativa.pct;
-                count++;
-            }
-            if (state.results.organizacional) {
-                orgPct = state.results.organizacional.pct;
-                count++;
-            }
-
-            if (count === 0) {
-                html += '<div class="instruction-box"><strong>Sin evaluaciones.</strong> Completa al menos una evaluación para ver resultados.</div>';
-            } else {
-                const finalScore = (techPct * 0.33) + (adminPct * 0.33) + (orgPct * 0.34);
-                const player = getPlayerType(finalScore);
-                let resultLabel = '⭐ EXCEPCIONAL';
-                if (finalScore < 80) resultLabel = '✓ BUEN CANDIDATO';
-                if (finalScore < 70) resultLabel = '⚠️ ACEPTABLE';
-                if (finalScore < 50) resultLabel = '✗ NO RECOMENDADO';
-
-                html += `<div class="results-header ${player.class}">
-                    <div class="results-score">${finalScore.toFixed(1)}%</div>
-                    <div class="results-label">${resultLabel}</div>
-                    <div class="player-badge">${player.label}</div>
-                </div>`;
-
-                if (state.results.administrativa) {
-                    html += '<div class="prevalidation-box">';
-                    html += '<h4>📋 Revisión Administrativa (Prevalidación)</h4>';
-                    const prevalidationLabels = ['¿Dispuesto a firmar contrato?', '¿Identificación oficial vigente?', '¿RFC disponible?', '¿NSS disponible?', '¿Cuenta bancaria?', '¿Tiempo para documentación?', '¿Respuesta ante solicitud de documentos?'];
-                    const prevalidationOpts = [["No", "Probablemente no", "Quizás", "Probablemente sí", "Sí"], ["No", "Vencida", "Próximo a vencer", "Vigente pronto", "Sí, vigente"], ["No", "No, no puedo", "Puedo gestionar", "Casi listo", "Sí, tengo"], ["No", "Difícil obtenerlo", "Puedo gestionar", "En trámite", "Sí, tengo"], ["No", "No, no puedo", "Puedo gestionar", "Próximo a abrir", "Sí, tengo"], ["No sabe", "Más de 2 semanas", "1-2 semanas", "5-10 días", "1-4 días"], ["Me cuesta completar", "Necesito recordatorios", "Entregaría con tiempo", "Entrego rápido", "Entrego completo y a tiempo"]];
-                    for (let i = 0; i < 7; i++) {
-                        const answerIdx = state.answers.administrativa[`pre_${i}`];
-                        if (answerIdx) {
-                            const idx = answerIdx.charCodeAt(0) - 65;
-                            const value = prevalidationOpts[i][idx];
-                            html += `<div class="prevalidation-item"><span class="label">${prevalidationLabels[i]}</span><span class="value">${value}</span></div>`;
-                        }
-                    }
-                    html += '</div>';
-                }
-
-                html += '<h2 style="text-align:center; color: var(--primary); margin-top: 40px;">Evaluaciones Detalladas</h2>';
-                html += '<table class="summary-table"><thead><tr><th>Evaluación</th><th>Puntuación</th><th>Porcentaje</th><th>Estado</th></tr></thead><tbody>';
-
-                if (state.results.tecnica) {
-                    const statusColor = techPct >= 60 ? '<span class="status-badge aceptable">✓ ACEPTABLE</span>' : '<span class="status-badge no-aceptable">✗ NO ACEPTABLE</span>';
-                    html += `<tr><td><strong>Técnica</strong></td><td>${state.results.tecnica.total}/100</td><td><strong>${techPct.toFixed(1)}%</strong></td><td>${statusColor}</td></tr>`;
-                }
-                if (state.results.administrativa) {
-                    const statusColor = adminPct >= 60 ? '<span class="status-badge aceptable">✓ ACEPTABLE</span>' : '<span class="status-badge no-aceptable">✗ NO ACEPTABLE</span>';
-                    html += `<tr><td><strong>Administrativa</strong></td><td>${state.results.administrativa.total}/100</td><td><strong>${adminPct.toFixed(1)}%</strong></td><td>${statusColor}</td></tr>`;
-                }
-                if (state.results.organizacional) {
-                    const statusColor = orgPct >= 60 ? '<span class="status-badge aceptable">✓ ACEPTABLE</span>' : '<span class="status-badge no-aceptable">✗ NO ACEPTABLE</span>';
-                    html += `<tr><td><strong>Organizacional</strong></td><td>${state.results.organizacional.total}/100</td><td><strong>${orgPct.toFixed(1)}%</strong></td><td>${statusColor}</td></tr>`;
-                }
-                html += '</tbody></table>';
-
-                html += '<div class="methodology-box">';
-                html += '<h4>📊 Cómo se Evalúa</h4>';
-                html += '<div class="method-item"><strong>Técnica (33%):</strong> 7 bloques que miden competencias técnicas. Escala 1-5 donde 5=Claro con ejemplos.</div>';
-                html += '<div class="method-item"><strong>Administrativa (33%):</strong> Documentación + 4 áreas (Historial, Reputación, Integridad, Referencias). Escala 1-5.</div>';
-                html += '<div class="method-item"><strong>Organizacional (34%):</strong> 20 situaciones alineadas con valores IDENTILABEL. Escala 1-5 según comportamiento.</div>';
-                html += '<div class="method-item"><strong>Final:</strong> (Técnica% × 0.33) + (Administrativa% × 0.33) + (Organizacional% × 0.34)</div>';
-                html += '</div>';
-
-                html += '<div class="players-box">';
-                html += '<h4>🎯 Tipos de Jugadores</h4>';
-                html += '<div class="player-item"><strong>⭐ ESTRELLA (A) - ≥80%:</strong> Excepcional. Competencias técnicas sólidas, integridad comprobada, documentación completa. CONTRATACIÓN INMEDIATA.</div>';
-                html += '<div class="player-item"><strong>🔑 CLAVE (B) - 70-79%:</strong> Muy bueno. Competencias sólidas, buen alineamiento. CONTRATACIÓN RECOMENDADA.</div>';
-                html += '<div class="player-item"><strong>📈 EMERGENTE (C) - 50-69%:</strong> Aceptable, tiene gaps. REQUIERE ANÁLISIS PROFUNDO. Considerar período de prueba.</div>';
-                html += '<div class="player-item"><strong>⚠️ REVISIÓN - <50%:</strong> No cumple perfil. Gaps significativos. NO RECOMENDADO.</div>';
-                html += '</div>';
-
-                html += '<div class="conclusion-box">';
-                html += '<div class="conclusion-title">Recomendación Final</div>';
-                html += '<div class="conclusion-text">';
-                if (finalScore >= 80) {
-                    html += `<strong>${state.name}</strong> es candidato excepcional. CONTRATACIÓN INMEDIATA para roles estratégicos.`;
-                } else if (finalScore >= 70) {
-                    html += `<strong>${state.name}</strong> es muy buen candidato. CONTRATACIÓN RECOMENDADA para equipos operacionales.`;
-                } else if (finalScore >= 50) {
-                    html += `<strong>${state.name}</strong> es aceptable. REQUIERE ANÁLISIS PROFUNDO. Evaluar período de prueba 30 días con mentoría.`;
-                } else {
-                    html += `<strong>${state.name}</strong> no cumple perfil. NO RECOMENDADO para contratación.`;
-                }
-                html += '</div></div>';
-            }
-
-            document.getElementById('resultsDiv').innerHTML = html;
-            showScreen('resultsScreen');
-        }
-
-        function copyResults() {
-            if (!state.name) return;
-            
-            let text = `RESULTADOS DE EVALUACIÓN - IDENTILABEL\n`;
-            text += `${'='.repeat(60)}\n\n`;
-            text += `Candidato: ${state.name}\n`;
-            text += `Área: ${state.area}\n\n`;
-
-            let techPct = 0, adminPct = 0, orgPct = 0;
-            if (state.results.tecnica) techPct = state.results.tecnica.pct;
-            if (state.results.administrativa) adminPct = state.results.administrativa.pct;
-            if (state.results.organizacional) orgPct = state.results.organizacional.pct;
-
-            const finalScore = (techPct * 0.33) + (adminPct * 0.33) + (orgPct * 0.34);
-            const player = getPlayerType(finalScore);
-
-            text += `EVALUACIONES DETALLADAS\n`;
-            text += `${'-'.repeat(60)}\n`;
-            if (state.results.tecnica) text += `Técnica:\t\t${state.results.tecnica.total}/100\t${techPct.toFixed(1)}%\n`;
-            if (state.results.administrativa) text += `Administrativa:\t${state.results.administrativa.total}/100\t${adminPct.toFixed(1)}%\n`;
-            if (state.results.organizacional) text += `Organizacional:\t${state.results.organizacional.total}/100\t${orgPct.toFixed(1)}%\n`;
-            
-            text += `\nRESULTADO FINAL\n`;
-            text += `${'-'.repeat(60)}\n`;
-            text += `Puntaje Final: ${finalScore.toFixed(1)}%\n`;
-            text += `Clasificación: ${player.label}\n`;
-            text += `Descripción: ${player.desc}\n`;
-
-            navigator.clipboard.writeText(text).then(() => {
-                alert('✓ Resultados copiados al portapapeles');
-            }).catch(() => {
-                alert('Error al copiar');
-            });
-        }
-
-        function confirmReset() { document.getElementById('resetModal').classList.add('active'); }
-        function cancelReset() { document.getElementById('resetModal').classList.remove('active'); }
-        function resetAll() {
-            localStorage.removeItem('app_state');
-            state = {name: '', area: '', currentEval: null, questionIndex: 0, tecnicaBlockIndex: 0, adminPhase: 'prevalidation', adminBlockIndex: 0, answers: {tecnica: {}, administrativa: {}, organizacional: {}}, results: {}, timerInterval: null, timerSeconds: 0};
-            document.getElementById('candidateName').value = '';
-            document.getElementById('candidateArea').value = '';
-            document.getElementById('formSection').style.display = 'block';
-            document.getElementById('savedSection').style.display = 'none';
-            document.getElementById('resetModal').classList.remove('active');
-            backToMenu();
-        }
-
-        function showScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0, 0); }
-        function backToMenu() { showScreen('menuScreen'); }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const saved = localStorage.getItem('app_state');
-            if (saved) {
-                state = JSON.parse(saved);
-                if (state.name) showSavedSection();
-            }
-        });
+        window.addEventListener('DOMContentLoaded', () => { const s = localStorage.getItem('state'); if (s) { app.state = JSON.parse(s); if (app.state.interviewer && app.state.name) { app.showScreen('menuScreen'); app.showSavedSection(); } } });
     </script>
 </body>
 </html>
